@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Eavesdropper</string>
+    <string name="navigation_item_home">Главная</string>
+    <string name="navigation_item_history">История</string>
+</resources>
