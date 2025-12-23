@@ -16,6 +16,7 @@ private val DarkColorScheme = darkColorScheme(
     secondary = Black,
     tertiary = Black,
     onPrimary = Turquoise,
+    onBackground = Aqua,
     onSecondary = White
 )
 
@@ -24,6 +25,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = White,
     tertiary = White,
     onPrimary = DeepSkyBlue,
+    onBackground = LightSkyBlue,
     onSecondary = Black
 
     /* Other default colors to override
@@ -56,7 +58,6 @@ fun EavesdropperTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
         content = content
     )
 }

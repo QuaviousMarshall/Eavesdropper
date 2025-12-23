@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Eavesdropper</string>
+    <string name="app_name">ТРОН</string>
     <string name="navigation_item_home">Главная</string>
     <string name="navigation_item_history">История</string>
+    <string name="last_3_asks">Последние три запроса:</string>
+    <string name="turn_on_thron">Включить трон</string>
 </resources>
