@@ -1,31 +1,20 @@
 package com.example.eavesdropper.ui.theme
 
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,32 +27,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
-import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainCard() {
+fun ListOfAsks() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -72,12 +55,13 @@ fun MainCard() {
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         bottomBar = {
             NavigationBar(
-                modifier = Modifier.height(60.dp)
+                modifier = Modifier
+                    .height(60.dp)
                     .fillMaxWidth(),
                 containerColor = MaterialTheme.colorScheme.primary,
             ) {
                 val selectedItemPosition = remember {
-                    mutableIntStateOf(0)
+                    mutableIntStateOf(1)
                 }
                 val items = listOf(
                     NavigationItem.Home,
@@ -112,10 +96,10 @@ fun MainCard() {
                         textAlign = TextAlign.Center
                     )
                 },
-                actions = {
+                navigationIcon = {
                     IconButton(onClick = {}) {
                         Icon(
-                            imageVector = Icons.Filled.Settings,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
@@ -129,119 +113,53 @@ fun MainCard() {
         Column(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            Row {
-                AskMainIcon()
+            repeat(10) {
+                Row {
+                    Ask()
+                }
             }
-            Row {
-                Last3AsksList()
-            }
-            ElevatedButtonOn { }
-            Spacer(Modifier.height(32.dp))
         }
     }
 }
 
 @Composable
-fun Last3AsksList() {
-    val last3ASksList = listOf(
-        "Кто владелец бренда Gucci?",
-        "Какова длина хвоста обезьяны?",
-        "Кто такая MARGO?",
-    )
-    val transition = rememberInfiniteTransition()
-    val scale by transition.animateFloat(
-        initialValue = 0.95f,
-        targetValue = 1.05f,
-        animationSpec =
-            infiniteRepeatable(
-                animation = tween(3000),
-                repeatMode = RepeatMode.Reverse,
-            ),
-    )
+fun Ask() {
     Box(
-        modifier = Modifier.padding(32.dp)
-            .graphicsLayer(scaleX = scale, scaleY = scale)
-            .border(0.5.dp, Color.LightGray)
+        modifier = Modifier
+            .padding(8.dp)
+            .clip(shape = RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.onBackground),
         contentAlignment = Alignment.Center
     ) {
-        Column() {
-            Spacer(Modifier.height(8.dp))
+        Column {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Center,
+                    .fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(R.string.last_3_asks),
-                    fontSize = 20.sp,
+                    modifier = Modifier.padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 1.dp),
+                    text = "1. Как зовут незнакомого странного лысого тупого Виталия?",
+                    fontSize = 14.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center,
                     color = Color.Black
                 )
             }
-            Spacer(Modifier.height(16.dp))
-            for (element in last3ASksList) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                        text = "${last3ASksList.indexOf(element) + 1}. " + element,
-                        fontSize = 20.sp,
-                        fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Justify,
-                        color = Color.Black
-                    )
-                }
-                Spacer(Modifier.height(8.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    modifier = Modifier.padding(start = 4.dp, top = 1.dp, end = 4.dp, bottom = 2.dp),
+                    text = ": Виталий",
+                    fontSize = 14.sp,
+                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black
+                )
             }
-        }
-    }
-}
-
-@Composable
-fun AskMainIcon() {
-    val transition = rememberInfiniteTransition()
-    val color by transition.animateColor(
-        initialValue = Turquoise,
-        targetValue = DeepSkyBlue,
-        animationSpec = infiniteRepeatable(
-            animation = tween(6000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-    Box() {
-        Image(
-            painter = painterResource(R.drawable.question_mark_circle_svg_icon),
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(color),
-        )
-    }
-}
-
-@Composable
-fun ElevatedButtonOn(onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Absolute.Center,
-    ) {
-        ElevatedButton(onClick = { onClick() },
-            colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = MaterialTheme.colorScheme.onPrimary,
-                contentColor = Color.Black,
-                disabledContainerColor = Color.Gray,
-                disabledContentColor = Color.Black
-            )) {
-            Text(stringResource(R.string.turn_on_thron),
-                fontFamily = FontFamily.Serif,
-                fontWeight = FontWeight.Medium)
         }
     }
 }
