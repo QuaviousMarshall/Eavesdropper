@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">ТРОН</string>
+    <string name="app_name">Трон</string>
     <string name="navigation_item_home">Главная</string>
     <string name="navigation_item_history">История</string>
     <string name="last_3_asks">Последние три запроса:</string>
     <string name="turn_on_thron">Включить трон</string>
+    <string name="version_1_0_1">Версия 1.0.1</string>
+    <string name="entrance_in_account">Вход в аккаунт</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="log_in">Войти</string>
+    <string name="yours_hidden_helper">Ваш скрытый помощник</string>
 </resources>

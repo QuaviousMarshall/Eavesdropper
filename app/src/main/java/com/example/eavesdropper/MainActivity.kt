@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.eavesdropper.ui.theme.EavesdropperTheme
+import com.example.eavesdropper.ui.theme.LoginCard
 import com.example.eavesdropper.ui.theme.MainCard
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EavesdropperTheme {
-                MainCard()
+                LoginCard()
             }
         }
     }
