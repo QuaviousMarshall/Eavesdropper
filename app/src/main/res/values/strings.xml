@@ -2,6 +2,7 @@
     <string name="app_name">Трон</string>
     <string name="navigation_item_home">Главная</string>
     <string name="navigation_item_history">История</string>
+    <string name="top_bar_settings">Настройки</string>
     <string name="last_3_asks">Последние три запроса:</string>
     <string name="turn_on_thron">Включить трон</string>
     <string name="version_1_0_1">Версия 1.0.1</string>
@@ -14,4 +15,7 @@
     <string name="reg_in">Зарегистрироваться</string>
     <string name="yours_hidden_helper">Ваш скрытый помощник</string>
     <string name="nickname">Никнейм</string>
+    <string name="about_app">О приложении</string>
+    <string name="log_out_button">Выйти из аккаунта</string>
+    <string name="about_account">Об аккаунте</string>
 </resources>
