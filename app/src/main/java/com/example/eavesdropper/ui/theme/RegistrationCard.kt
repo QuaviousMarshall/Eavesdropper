@@ -1,5 +1,6 @@
 package com.example.eavesdropper.ui.theme
 
+import androidx.annotation.StringRes
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,7 +37,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,7 +49,6 @@ import com.example.eavesdropper.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
 fun RegistrationCard() {
 
     Scaffold(
@@ -98,70 +102,74 @@ fun NickLoginPasswordBox() {
                     color = Color.Black
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            var nickText by remember { mutableStateOf(TextFieldValue("")) }
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp)
-                    .fillMaxWidth(),
-                value = nickText,
-                onValueChange = {},
-                label = {
-                    Text(
-                        text = stringResource(R.string.nickname),
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Black
-                    )
-                }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            var loginText by remember { mutableStateOf(TextFieldValue("")) }
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp)
-                    .fillMaxWidth(),
-                value = loginText,
-                onValueChange = {},
-                label = {
-                    Text(
-                        text = stringResource(
-                            R.string.login_types
-                        ),
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Black
-                    )
-                }
-            )
-            var passwordText by remember { mutableStateOf(TextFieldValue("")) }
+
             Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp)
-                    .fillMaxWidth(),
-                value = passwordText,
-                onValueChange = {},
-                label = {
-                    Text(
-                        text = stringResource(
-                            R.string.password
-                        ),
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Black
-                    )
-                }
+
+            var nickText by remember { mutableStateOf(TextFieldValue("")) }
+            ProfileTextField(
+                value = nickText,
+                onValueChange = { nickText = it },
+                labelRes = R.string.nickname
             )
-            Spacer(modifier = Modifier.height(16.dp))
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            var loginText by remember { mutableStateOf(TextFieldValue("")) }
+            ProfileTextField(
+                value = loginText,
+                onValueChange = { loginText = it },
+                labelRes = R.string.login_types
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            var passwordText by remember { mutableStateOf(TextFieldValue("")) }
+            ProfileTextField(
+                value = passwordText,
+                onValueChange = { passwordText = it },
+                labelRes = R.string.password,
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
             ElevatedButtonRegin {}
+
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
+
+@Composable
+fun ProfileTextField(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    @StringRes labelRes: Int,
+    modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None
+) {
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        value = value,
+        onValueChange = onValueChange,
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
+        label = {
+            Text(
+                text = stringResource(labelRes),
+                fontSize = 10.sp,
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Medium,
+                color = Color.Black
+            )
+        }
+    )
+}
+
 
 @Composable
 fun ElevatedButtonRegin(onClick: () -> Unit) {

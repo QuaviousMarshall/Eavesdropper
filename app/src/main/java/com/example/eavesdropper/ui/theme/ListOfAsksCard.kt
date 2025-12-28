@@ -85,7 +85,7 @@ fun ListOfAsks() {
                 ),
                 title = {
                     Text(
-                        text = stringResource(R.string.app_name),
+                        text = stringResource(R.string.asks),
                         fontSize = 20.sp,
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.ExtraBold,
@@ -126,7 +126,8 @@ fun Ask() {
         modifier = Modifier
             .padding(8.dp)
             .clip(shape = RoundedCornerShape(20.dp))
-            .background(MaterialTheme.colorScheme.onBackground),
+            .background(getColor())
+            .padding(8.dp),
         contentAlignment = Alignment.Center
     ) {
         Column {
@@ -139,7 +140,7 @@ fun Ask() {
                     text = "1. Как зовут незнакомого странного лысого тупого Виталия?",
                     fontSize = 14.sp,
                     fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Normal,
                     color = Color.Black
                 )
             }
@@ -151,8 +152,8 @@ fun Ask() {
                     modifier = Modifier.padding(start = 4.dp, top = 1.dp, end = 4.dp, bottom = 2.dp),
                     text = ": Виталий",
                     fontSize = 14.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.SemiBold,
+                    fontFamily = FontFamily.Cursive,
+                    fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
             }

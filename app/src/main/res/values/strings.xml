@@ -9,6 +9,9 @@
     <string name="entrance_in_account">Вход в аккаунт</string>
     <string name="registration">Регистрация</string>
     <string name="login">Логин</string>
+    <string name="about_user_login">Логин:</string>
+    <string name="about_user_nickname">Никнейм:</string>
+    <string name="asks">Запросы</string>
     <string name="login_types">Почта или номер телефона</string>
     <string name="password">Пароль</string>
     <string name="log_in">Войти</string>
@@ -19,4 +22,6 @@
     <string name="log_out_button">Выйти из аккаунта</string>
     <string name="about_account">Об аккаунте</string>
     <string name="app_info_text">Данное приложение является скрытым ИИ-помощником, считывающим ваши вопросы в фоновом режиме и предоставляющим краткие ответы в виде уведомлений. \nДля корректной работы приложение рекомендуется находится в тихом месте и отчётливо формулировать свой вопрос. В случае, если работа приложения не требуется - она отключается в ручную посредством закрытия вкладки. \nВ случае возникновения вопросов, телеграмм для связи: @apeslayerbaby</string>
+    <string name="account_creating_date">Дата создания аккаунта:</string>
+    <string name="count_of_asks">Общее число запросов:</string>
 </resources>

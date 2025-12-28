@@ -43,7 +43,6 @@ import com.example.eavesdropper.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview
 fun AboutAppCard() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
