@@ -24,13 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AboutUserActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AboutAppActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LogOutActivity"
+            android:name=".ListActivity"
             android:exported="false" />
     </application>
 

@@ -8,6 +8,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
@@ -50,6 +53,7 @@ import com.example.eavesdropper.ui.theme.DeepSkyBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Preview
 fun RegistrationCard() {
 
     Scaffold(
@@ -133,12 +137,42 @@ fun NickLoginPasswordBox() {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+
+            HaveAccountAlready {
+
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
 
             ElevatedButtonRegin {}
 
             Spacer(modifier = Modifier.height(8.dp))
         }
+    }
+}
+
+@Composable
+fun HaveAccountAlready(onTextClickListener: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Absolute.Center
+    ) {
+        Text(
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                .clickable {
+                    onTextClickListener()
+                },
+            text = stringResource(R.string.authorized_already),
+            fontSize = 12.sp,
+            fontFamily = FontFamily.Serif,
+            textDecoration = TextDecoration.Underline,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Justify,
+            color = Color.Black
+        )
     }
 }
 

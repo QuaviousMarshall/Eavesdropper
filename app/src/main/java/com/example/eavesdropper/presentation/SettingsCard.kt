@@ -43,10 +43,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.eavesdropper.AboutAppActivity
 import com.example.eavesdropper.R
-import com.example.eavesdropper.AboutUserActivity
-import com.example.eavesdropper.LogOutActivity
+import com.example.eavesdropper.ListActivity
 import com.example.eavesdropper.ui.theme.Aqua
 import com.example.eavesdropper.ui.theme.DeepSkyBlue
 import com.example.eavesdropper.domain.entity.NavigationItem
@@ -122,25 +120,19 @@ fun SettingsCard(
             ProfileRow {
                 ProfileActionButton(
                     R.string.about_account,
-                    {
-                        context.startActivity(Intent(context, AboutUserActivity::class.java))
-                    }
+                    {    }
                 )
             }
             ProfileRow {
                 ProfileActionButton(
                     R.string.about_app,
-                    {
-                        context.startActivity(Intent(context, AboutAppActivity::class.java))
-                    }
+                    {   }
                 )
             }
             ProfileRow {
                 ProfileActionButton(
                     R.string.log_out_button,
-                    {
-                        context.startActivity(Intent(context, LogOutActivity::class.java))
-                    }
+                    {   }
                 )
             }
         }

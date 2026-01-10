@@ -7,6 +7,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,6 +38,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
@@ -45,7 +47,9 @@ import com.example.eavesdropper.ui.theme.DeepSkyBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogInCard() {
+fun LogInCard(
+    onTextClickListener: () -> Unit
+) {
 
     Scaffold(
         modifier = Modifier
@@ -60,7 +64,9 @@ fun LogInCard() {
             }
             Spacer(Modifier.weight(1f))
             Row {
-                LoginPasswordBox()
+                LoginPasswordBox {
+                    onTextClickListener()
+                }
             }
             Spacer(Modifier.weight(1f))
             Row {
@@ -71,7 +77,9 @@ fun LogInCard() {
 }
 
 @Composable
-fun LoginPasswordBox() {
+fun LoginPasswordBox(
+    onTextClickListener: () -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(bottom = 1.dp, start = 32.dp, end = 32.dp, top = 1.dp)
@@ -139,9 +147,37 @@ fun LoginPasswordBox() {
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
+            DontHaveAccountYet {
+                    onTextClickListener()
+            }
+            Spacer(modifier = Modifier.height(8.dp))
             ElevatedButtonLogin {}
             Spacer(modifier = Modifier.height(8.dp))
         }
+    }
+}
+
+@Composable
+fun DontHaveAccountYet(onTextClickListener: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.Absolute.Center
+    ) {
+        Text(
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                .clickable {
+                    onTextClickListener()
+                },
+            text = stringResource(R.string.dont_authorized),
+            fontSize = 12.sp,
+            fontFamily = FontFamily.Serif,
+            textDecoration = TextDecoration.Underline,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Justify,
+            color = Color.Black
+        )
     }
 }
 

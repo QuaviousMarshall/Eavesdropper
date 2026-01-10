@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "710796123312",
+    "project_id": "the-tron-aa03d",
+    "storage_bucket": "the-tron-aa03d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710796123312:android:20a392860fae35435d2f75",
+        "android_client_info": {
+          "package_name": "com.example.eavesdropper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjyzv8ym-9-Wm8JB2ABMARp46cvb9KC78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

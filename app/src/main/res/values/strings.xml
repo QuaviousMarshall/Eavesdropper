@@ -6,6 +6,8 @@
     <string name="last_3_asks">Последние три запроса:</string>
     <string name="turn_on_thron">Включить трон</string>
     <string name="version_1_0_1">Версия 1.0.1</string>
+    <string name="dont_authorized">Ещё не зарегистрированы?</string>
+    <string name="authorized_already">Уже есть аккаунт?</string>
     <string name="entrance_in_account">Вход в аккаунт</string>
     <string name="registration">Регистрация</string>
     <string name="login">Логин</string>
