@@ -1,4 +1,4 @@
-package com.example.eavesdropper.ui.theme
+package com.example.eavesdropper.domain.entity
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Favorite

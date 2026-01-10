@@ -1,18 +1,18 @@
-package com.example.eavesdropper.ui.theme
+package com.example.eavesdropper.presentation
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -31,9 +31,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -42,10 +42,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
+import com.example.eavesdropper.ui.theme.Aqua
+import com.example.eavesdropper.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.domain.entity.NavigationItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -146,7 +148,7 @@ fun ProfileInfoRow(
             .fillMaxWidth()
             .padding(8.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(getColor())
+            .background(aboutUserGetColor())
     ) {
         content()
     }
@@ -168,51 +170,17 @@ fun ProfileInfoText(
 }
 
 @Composable
-fun Login() {
-    Text(
-        modifier = Modifier.padding(8.dp),
-        text = stringResource(R.string.login) + ":",
-        fontFamily = FontFamily.Serif,
-        fontWeight = FontWeight.Normal,
-        textAlign = TextAlign.Center,
-        color = Color.Black
+fun aboutUserGetColor(): Color {
+    val transition = rememberInfiniteTransition()
+    val color by transition.animateColor(
+        initialValue = Aqua,
+        targetValue = DeepSkyBlue,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000),
+            repeatMode = RepeatMode.Reverse
+        )
     )
-}
-
-@Composable
-fun Nickname() {
-    Text(
-        modifier = Modifier.padding(8.dp),
-        text = stringResource(R.string.nickname) + ":",
-        fontFamily = FontFamily.Serif,
-        fontWeight = FontWeight.Normal,
-        textAlign = TextAlign.Center,
-        color = Color.Black
-    )
-}
-
-@Composable
-fun AccountCreatingDate() {
-    Text(
-        modifier = Modifier.padding(8.dp),
-        text = stringResource(R.string.account_creating_date),
-        fontFamily = FontFamily.Serif,
-        fontWeight = FontWeight.Normal,
-        textAlign = TextAlign.Center,
-        color = Color.Black
-    )
-}
-
-@Composable
-fun CountOfAsks() {
-    Text(
-        modifier = Modifier.padding(8.dp),
-        text = stringResource(R.string.count_of_asks),
-        fontFamily = FontFamily.Serif,
-        fontWeight = FontWeight.Normal,
-        textAlign = TextAlign.Center,
-        color = Color.Black
-    )
+    return color
 }
 
 

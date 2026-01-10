@@ -3,16 +3,15 @@ package com.example.eavesdropper
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.ui.platform.LocalContext
 import com.example.eavesdropper.ui.theme.EavesdropperTheme
-import com.example.eavesdropper.presentation.SettingsCard
+import com.example.eavesdropper.presentation.LogInCard
 
-class MainActivity : ComponentActivity() {
+class LogOutActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             EavesdropperTheme {
-                SettingsCard(LocalContext.current)
+                LogInCard()
             }
         }
     }

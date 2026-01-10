@@ -1,4 +1,4 @@
-package com.example.eavesdropper.ui.theme
+package com.example.eavesdropper.presentation
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
@@ -55,6 +55,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
+import com.example.eavesdropper.domain.entity.Ask
+import com.example.eavesdropper.ui.theme.Aqua
+import com.example.eavesdropper.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.domain.entity.NavigationItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -130,7 +134,14 @@ fun MainCard() {
                 AskMainIcon()
             }
             Row {
-                Last3AsksList()
+                val asks = listOf(
+                    Ask(0, "0 + 0", "0"),
+                    Ask(1, "1 + 0", "1"),
+                    Ask(2, "1 + 1", "2"),
+                    Ask(3, "1 + 2", "3"),
+                    Ask(4, "2 + 2", "4")
+                )
+                Last3AsksList(asks)
             }
             ElevatedButtonOn { }
             Spacer(Modifier.height(32.dp))
@@ -139,31 +150,26 @@ fun MainCard() {
 }
 
 @Composable
-fun Last3AsksList() {
-    val last3ASksList = listOf(
-        "Кто владелец бренда Gucci?",
-        "Какова длина хвоста обезьяны?",
-        "Кто такая MARGO?",
-    )
+fun Last3AsksList(
+    last3ASksList: List<Ask>
+) {
     val transition = rememberInfiniteTransition()
-    val scale by transition.animateFloat(
-        initialValue = 0.95f,
-        targetValue = 1.05f,
-        animationSpec =
-            infiniteRepeatable(
-                animation = tween(3000),
-                repeatMode = RepeatMode.Reverse,
-            ),
+    val color by transition.animateColor(
+        initialValue = Color.LightGray,
+        targetValue = MaterialTheme.colorScheme.onBackground,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000),
+            repeatMode = RepeatMode.Reverse
+        )
     )
     Box(
         modifier = Modifier.padding(16.dp)
-            .clip(shape = RoundedCornerShape(32.dp))
-            .graphicsLayer(scaleX = scale, scaleY = scale)
+            .clip(shape = RoundedCornerShape(16.dp))
             .border(0.5.dp, Color.LightGray)
             .background(MaterialTheme.colorScheme.onBackground),
         contentAlignment = Alignment.Center
     ) {
-        Column() {
+        Column {
             Spacer(Modifier.height(8.dp))
             Row(
                 modifier = Modifier
@@ -180,21 +186,38 @@ fun Last3AsksList() {
                 )
             }
             Spacer(Modifier.height(16.dp))
-            for (element in last3ASksList) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-                        text = "${last3ASksList.indexOf(element) + 1}. " + element,
-                        fontSize = 20.sp,
-                        fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Justify,
-                        color = Color.Black
-                    )
+            Column {
+                var size = last3ASksList.size - 1
+                repeat(3) {
+                    val ask = last3ASksList[size]
+                    Row(
+                        modifier = Modifier.padding(4.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .fillMaxWidth()
+                            .background(color)
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(8.dp),
+                            text = ask.question + "?",
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily.Serif,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Justify,
+                            color = Color.Black
+                        )
+                        Text(
+                            modifier = Modifier.padding(8.dp),
+                            text = ": " + ask.answer,
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily.Serif,
+                            fontWeight = FontWeight.Medium,
+                            textAlign = TextAlign.Justify,
+                            color = Color.Black
+                        )
+                    }
+                    Spacer(Modifier.height(8.dp))
+                    size--
                 }
-                Spacer(Modifier.height(8.dp))
             }
         }
     }
@@ -211,7 +234,16 @@ fun AskMainIcon() {
             repeatMode = RepeatMode.Reverse
         )
     )
-    Box() {
+    val scale by transition.animateFloat(
+        initialValue = 0.95f,
+        targetValue = 1f,
+        animationSpec =
+            infiniteRepeatable(
+                animation = tween(3000),
+                repeatMode = RepeatMode.Reverse,
+            ),
+    )
+    Box(modifier = Modifier.graphicsLayer(scaleX = scale, scaleY = scale)) {
         Image(
             painter = painterResource(R.drawable.question_mark_circle_svg_icon),
             contentDescription = null,

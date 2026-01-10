@@ -1,8 +1,12 @@
-package com.example.eavesdropper.ui.theme
+package com.example.eavesdropper.presentation
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,9 +29,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -39,10 +43,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
+import com.example.eavesdropper.ui.theme.Aqua
+import com.example.eavesdropper.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.domain.entity.NavigationItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListOfAsks() {
+fun AboutAppCard() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -85,7 +92,7 @@ fun ListOfAsks() {
                 ),
                 title = {
                     Text(
-                        text = stringResource(R.string.asks),
+                        text = stringResource(R.string.about_app),
                         fontSize = 20.sp,
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.ExtraBold,
@@ -106,57 +113,41 @@ fun ListOfAsks() {
             )
         }
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .padding(it)
                 .verticalScroll(rememberScrollState())
         ) {
-            repeat(10) {
-                Row {
-                    Ask()
-                }
+            Row(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(aboutAppGetColor())
+            ) {
+                Text(
+                    modifier = Modifier.padding(8.dp),
+                    text = stringResource(R.string.app_info_text),
+                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = TextAlign.Justify,
+                    color = Color.Black
+                )
             }
         }
     }
 }
 
 @Composable
-fun Ask() {
-    Box(
-        modifier = Modifier
-            .padding(8.dp)
-            .clip(shape = RoundedCornerShape(20.dp))
-            .background(getColor())
-            .padding(8.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    modifier = Modifier.padding(start = 4.dp, top = 2.dp, end = 4.dp, bottom = 1.dp),
-                    text = "1. Как зовут незнакомого странного лысого тупого Виталия?",
-                    fontSize = 14.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.Black
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    modifier = Modifier.padding(start = 4.dp, top = 1.dp, end = 4.dp, bottom = 2.dp),
-                    text = ": Виталий",
-                    fontSize = 14.sp,
-                    fontFamily = FontFamily.Cursive,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-            }
-        }
-    }
+fun aboutAppGetColor(): Color {
+    val transition = rememberInfiniteTransition()
+    val color by transition.animateColor(
+        initialValue = Aqua,
+        targetValue = DeepSkyBlue,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+    return color
 }
+
