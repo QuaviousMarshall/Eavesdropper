@@ -1,0 +1,19 @@
+package com.example.eavesdropper.data.mapper
+
+import com.example.eavesdropper.data.database.AskDbModel
+import com.example.eavesdropper.domain.entity.Ask
+
+class AskMapper {
+
+    fun mapDbModelToEntity(dbModel: AskDbModel) = Ask(
+        id = dbModel.id,
+        question = dbModel.question,
+        answer = dbModel.answer
+    )
+
+    fun mapEntityToDbModel(ask: Ask) = AskDbModel(
+        id = ask.id,
+        question = ask.question,
+        answer = ask.answer
+    )
+}

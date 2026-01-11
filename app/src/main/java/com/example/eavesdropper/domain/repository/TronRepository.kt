@@ -1,12 +1,13 @@
 package com.example.eavesdropper.domain.repository
 
+import androidx.lifecycle.LiveData
 import com.example.eavesdropper.domain.entity.Ask
 
 interface TronRepository {
 
-    fun getInfoAboutAccount()
+    suspend fun deleteAsk(id: Int)
 
-    fun getAsks(): List<Ask>
+    suspend fun addAsk(ask: Ask)
 
-    fun get3LastAsks(asks: List<Ask>): List<Ask>
+    fun getAsks(): LiveData<List<Ask>>
 }
