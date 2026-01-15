@@ -1,7 +1,5 @@
 package com.example.eavesdropper.presentation
 
-import android.content.Context
-import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
@@ -44,15 +42,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
-import com.example.eavesdropper.ListActivity
+import com.example.eavesdropper.domain.entity.ButtonType
+import com.example.eavesdropper.domain.entity.NavigationItem
 import com.example.eavesdropper.ui.theme.Aqua
 import com.example.eavesdropper.ui.theme.DeepSkyBlue
-import com.example.eavesdropper.domain.entity.NavigationItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsCard(
-    context: Context
+    viewModel: SettingsViewModel
 ) {
     Scaffold(
         modifier = Modifier
@@ -120,19 +118,25 @@ fun SettingsCard(
             ProfileRow {
                 ProfileActionButton(
                     R.string.about_account,
-                    {    }
+                    {
+                        viewModel.onButtonClickedReaction(ButtonType.ABOUTACCOUNT)
+                    }
                 )
             }
             ProfileRow {
                 ProfileActionButton(
                     R.string.about_app,
-                    {   }
+                    {
+                        viewModel.onButtonClickedReaction(ButtonType.ABOUTAPP)
+                    }
                 )
             }
             ProfileRow {
                 ProfileActionButton(
                     R.string.log_out_button,
-                    {   }
+                    {
+                        viewModel.onButtonClickedReaction(ButtonType.LOGOUTACCOUNT)
+                    }
                 )
             }
         }

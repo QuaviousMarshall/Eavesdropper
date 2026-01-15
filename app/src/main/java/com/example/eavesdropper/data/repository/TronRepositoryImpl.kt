@@ -1,10 +1,11 @@
-package com.example.eavesdropper.domain.repository
+package com.example.eavesdropper.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import com.example.eavesdropper.data.database.AskDao
 import com.example.eavesdropper.data.mapper.AskMapper
 import com.example.eavesdropper.domain.entity.Ask
+import com.example.eavesdropper.domain.repository.TronRepository
 
 class TronRepositoryImpl(
     private val askDao: AskDao,

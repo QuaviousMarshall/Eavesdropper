@@ -1,5 +1,9 @@
 package com.example.eavesdropper.presentation
 
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
@@ -9,9 +13,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,11 +33,15 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,15 +57,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
+import com.example.eavesdropper.domain.entity.NavigationItem
 import com.example.eavesdropper.ui.theme.Aqua
 import com.example.eavesdropper.ui.theme.DeepSkyBlue
-import com.example.eavesdropper.domain.entity.NavigationItem
+import com.example.eavesdropper.ui.theme.EavesdropperTheme
+
+class ListActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val viewmodel by viewModels<ListOfAsksViewModel>()
+        setContent {
+            Test(viewmodel)
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListOfAsks() {
+private fun Test(viewModel: ListOfAsksViewModel) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-
     Scaffold(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
@@ -116,18 +137,52 @@ fun ListOfAsks() {
             )
         }
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
         ) {
-            val asks = listOf(
-                Ask(0, "Как зовут тупого странного Виталия?", "Виталий"),
-                Ask(1, "Как зовут тупого странного Фикалия?", "Фикалий")
-            )
-            for (ask in asks) {
-                Row {
-                    Ask(ask)
+            val asks = viewModel.asks.observeAsState(listOf())
+            LazyColumn {
+                items(asks.value, key = { it.id }) { ask ->
+
+                    val dismissBoxState = rememberSwipeToDismissBoxState(
+                        positionalThreshold = { it * 0.5f },
+                        confirmValueChange = { value ->
+                            val isDismissed = value in setOf(
+
+                                SwipeToDismissBoxValue.StartToEnd,
+                                SwipeToDismissBoxValue.EndToStart
+                            )
+                            if (isDismissed) {
+                                viewModel.delete(ask)
+                            }
+                            return@rememberSwipeToDismissBoxState isDismissed
+                        }
+                    )
+
+                    SwipeToDismissBox(
+                        state = dismissBoxState,
+                        enableDismissFromEndToStart = true,
+                        enableDismissFromStartToEnd = false,
+                        backgroundContent = {
+                            Box(
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .fillMaxSize()
+                                    .background(Color.Red.copy(alpha = 0.6f)),
+                                contentAlignment = Alignment.CenterEnd
+                            ) {
+                                Text(
+                                    modifier = Modifier.padding(8.dp),
+                                    text = stringResource(R.string.delete_ask),
+                                    color = Color.White
+                                )
+                            }
+                        }
+                    ) {
+                        Ask(ask = ask)
+                    }
                 }
             }
         }
