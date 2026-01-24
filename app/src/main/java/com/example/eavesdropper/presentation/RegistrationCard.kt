@@ -52,7 +52,9 @@ import com.example.eavesdropper.ui.theme.DeepSkyBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegistrationCard() {
+fun RegistrationCard(
+    onTextClickListener: () -> Unit
+) {
 
     Scaffold(
         modifier = Modifier
@@ -67,7 +69,9 @@ fun RegistrationCard() {
             }
             Spacer(Modifier.weight(1f))
             Row {
-                NickLoginPasswordBox()
+                NickLoginPasswordBox(
+                    onTextClickListener
+                )
             }
             Spacer(Modifier.weight(1f))
             Row {
@@ -78,7 +82,9 @@ fun RegistrationCard() {
 }
 
 @Composable
-fun NickLoginPasswordBox() {
+fun NickLoginPasswordBox(
+    onTextClickListener: () -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(bottom = 1.dp, start = 32.dp, end = 32.dp, top = 1.dp)
@@ -137,9 +143,7 @@ fun NickLoginPasswordBox() {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            HaveAccountAlready {
-
-            }
+            HaveAccountAlready(onTextClickListener)
 
             Spacer(modifier = Modifier.height(4.dp))
 

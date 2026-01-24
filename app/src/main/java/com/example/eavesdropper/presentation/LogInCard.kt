@@ -64,9 +64,7 @@ fun LogInCard(
             }
             Spacer(Modifier.weight(1f))
             Row {
-                LoginPasswordBox {
-                    onTextClickListener()
-                }
+                LoginPasswordBox(onTextClickListener)
             }
             Spacer(Modifier.weight(1f))
             Row {

@@ -12,7 +12,7 @@ interface AskDao {
     fun getAsksList(): LiveData<List<AskDbModel>>
 
     @Query("DELETE FROM ask_info WHERE id = :askId")
-    fun deleteAsk(askId: Int): LiveData<List<AskDbModel>>
+    suspend fun deleteAsk(askId: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAsk(ask: AskDbModel)

@@ -8,10 +8,10 @@ import com.example.eavesdropper.ui.theme.EavesdropperTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //TODO если неавторизован сетКонтент экран авторизации иначе главный экран???
+        //TODO если неавторизован сетКонтент экран авторизации иначе главный экран??? эту логику реализовать через стейты
         setContent {
             EavesdropperTheme {
-                MainCard()
+                MainScreen()
             }
         }
     }
