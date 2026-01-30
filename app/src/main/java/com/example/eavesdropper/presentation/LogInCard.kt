@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,21 +37,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eavesdropper.R
+import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
 import com.example.eavesdropper.ui.theme.Aqua
 import com.example.eavesdropper.ui.theme.DeepSkyBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogInCard(
-    onTextClickListener: () -> Unit
+    onLoginClick: (String, String) -> Unit,
+    onRegisterClick: () -> Unit,
+    isLoading: Boolean,
 ) {
-
     Scaffold(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
@@ -59,24 +64,27 @@ fun LogInCard(
             modifier = Modifier
                 .padding(it)
         ) {
-            Row {
-                LogInWelcomeText()
-            }
+            LogInWelcomeText()
             Spacer(Modifier.weight(1f))
-            Row {
-                LoginPasswordBox(onTextClickListener)
-            }
+
+            LoginPasswordBox(
+                onLoginClick = onLoginClick,
+                onRegisterClick = onRegisterClick,
+                isLoading = isLoading
+            )
+
             Spacer(Modifier.weight(1f))
-            Row {
-                VersionText()
-            }
+            VersionText()
+
         }
     }
 }
 
 @Composable
 fun LoginPasswordBox(
-    onTextClickListener: () -> Unit
+    onLoginClick: (String, String) -> Unit,
+    onRegisterClick: () -> Unit,
+    isLoading: Boolean,
 ) {
     Box(
         modifier = Modifier
@@ -105,13 +113,15 @@ fun LoginPasswordBox(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            var loginText by remember { mutableStateOf(TextFieldValue("")) }
+
+            var loginText by rememberSaveable { mutableStateOf("") }
             OutlinedTextField(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 value = loginText,
-                onValueChange = {},
+                onValueChange = { loginText = it },
+                enabled = !isLoading,
                 label = {
                     Text(
                         text = stringResource(
@@ -124,14 +134,16 @@ fun LoginPasswordBox(
                     )
                 }
             )
-            var passwordText by remember { mutableStateOf(TextFieldValue("")) }
+            var passwordText by rememberSaveable { mutableStateOf("") }
             Spacer(modifier = Modifier.height(12.dp))
             OutlinedTextField(
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 value = passwordText,
-                onValueChange = {},
+                enabled = !isLoading,
+                visualTransformation = PasswordVisualTransformation(),
+                onValueChange = { passwordText = it },
                 label = {
                     Text(
                         text = stringResource(
@@ -146,10 +158,12 @@ fun LoginPasswordBox(
             )
             Spacer(modifier = Modifier.height(16.dp))
             DontHaveAccountYet {
-                    onTextClickListener()
+                onRegisterClick()
             }
             Spacer(modifier = Modifier.height(8.dp))
-            ElevatedButtonLogin {}
+            ElevatedButtonLogin(enabled = !isLoading) {
+                onLoginClick(loginText, passwordText)
+            }
             Spacer(modifier = Modifier.height(8.dp))
         }
     }
@@ -164,7 +178,8 @@ fun DontHaveAccountYet(onTextClickListener: () -> Unit) {
         horizontalArrangement = Arrangement.Absolute.Center
     ) {
         Text(
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp)
                 .clickable {
                     onTextClickListener()
                 },
@@ -200,7 +215,10 @@ fun VersionText() {
 }
 
 @Composable
-fun ElevatedButtonLogin(onClick: () -> Unit) {
+fun ElevatedButtonLogin(
+    enabled: Boolean,
+    onClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -208,6 +226,7 @@ fun ElevatedButtonLogin(onClick: () -> Unit) {
         horizontalArrangement = Arrangement.Absolute.Center,
     ) {
         ElevatedButton(
+            enabled = enabled,
             onClick = { onClick() },
             colors = ButtonDefaults.elevatedButtonColors(
                 containerColor = logInGetColorForButton(),

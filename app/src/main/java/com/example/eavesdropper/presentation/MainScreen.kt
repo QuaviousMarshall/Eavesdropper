@@ -1,15 +1,8 @@
 package com.example.eavesdropper.presentation
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -17,16 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.eavesdropper.domain.entity.NavigationItem
 import com.example.eavesdropper.navigation.AppNavGraph
 import com.example.eavesdropper.navigation.Screen
 import com.example.eavesdropper.navigation.rememberNavigationState
+import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(authViewModel: AuthViewModel) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val navigationState = rememberNavigationState()
     val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
@@ -82,27 +74,18 @@ fun MainScreen() {
                     onProfileButtonClick = {
                         navigationState.navigateTo(Screen.AboutAccountScreen.route)
                     },
-                    onLogOutButtonClick = {
-                        navigationState.navigateTo(Screen.LogInScreen.route)
-                    },
                     onAppInfoButtonClick = {
                         navigationState.navigateTo(Screen.AboutAppScreen.route)
                     },
+                    onLogoutClick = {
+                        authViewModel.logout()
+                    }
                 )
             },
             aboutUserScreenContent = {
-                AboutUserCard(it)
-            },
-            logInScreenContent = {
-                LogInCard {
-                    navigationState.navigateToRoot(Screen.RegistrationScreen.route)
-                }
-            },
-            registrationScreenContent = {
-                RegistrationCard {
-                    navigationState.navigateToRoot(Screen.LogInScreen.route)
-                }
+                AboutUserCard(it, authViewModel)
             }
+
         )
     }
 }

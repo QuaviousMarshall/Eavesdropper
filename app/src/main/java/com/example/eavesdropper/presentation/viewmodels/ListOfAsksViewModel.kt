@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

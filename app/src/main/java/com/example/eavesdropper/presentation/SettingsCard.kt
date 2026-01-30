@@ -26,7 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eavesdropper.R
+import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
 import com.example.eavesdropper.ui.theme.Aqua
 import com.example.eavesdropper.ui.theme.DeepSkyBlue
 
@@ -35,8 +37,8 @@ import com.example.eavesdropper.ui.theme.DeepSkyBlue
 fun SettingsCard(
     paddingValues: PaddingValues,
     onProfileButtonClick: () -> Unit,
-    onLogOutButtonClick: () -> Unit,
-    onAppInfoButtonClick: () -> Unit
+    onAppInfoButtonClick: () -> Unit,
+    onLogoutClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -58,7 +60,7 @@ fun SettingsCard(
         ProfileRow {
             ProfileActionButton(
                 R.string.log_out_button,
-                onLogOutButtonClick
+                onLogoutClick
             )
         }
     }

@@ -20,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -28,26 +29,43 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
+import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
 import com.example.eavesdropper.ui.theme.Aqua
 import com.example.eavesdropper.ui.theme.DeepSkyBlue
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutUserCard(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    viewModel: AuthViewModel
 ) {
+    val userInfo = remember {
+        viewModel.getUserInfo()
+    }
+
+
     Column(
         modifier = Modifier
             .padding(paddingValues)
             .verticalScroll(rememberScrollState())
     ) {
-        ProfileInfoRow {
-            ProfileInfoText(R.string.about_user_nickname)
-        }
 
         ProfileInfoRow {
-            ProfileInfoText(R.string.about_user_login)
+            ProfileInfoText(R.string.about_user_login, modifier = Modifier.weight(1f))
+            Text(
+                text = userInfo?.email ?: "-",
+                fontSize = 12.sp,
+                modifier = Modifier.padding(8.dp),
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                color = Color.Black
+            )
         }
 
         ProfileInfoRow {
@@ -55,10 +73,25 @@ fun AboutUserCard(
         }
 
         ProfileInfoRow {
-            ProfileInfoText(R.string.account_creating_date)
+            ProfileInfoText(R.string.account_creating_date, modifier = Modifier.weight(1f))
+            Text(
+                text = userInfo?.createdAt?.let { formatDate(it) } ?: "-",
+                modifier = Modifier.padding(8.dp),
+                fontSize = 12.sp,
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                color = Color.Black
+            )
         }
     }
 }
+
+fun formatDate(millis: Long): String {
+    val formatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    return formatter.format(Date(millis))
+}
+
 
 @Composable
 fun ProfileInfoRow(
@@ -84,8 +117,8 @@ fun ProfileInfoText(
         modifier = modifier.padding(8.dp),
         text = stringResource(textRes),
         fontFamily = FontFamily.Serif,
+        fontSize = 12.sp,
         fontWeight = FontWeight.Normal,
-        textAlign = TextAlign.Center,
         color = Color.Black
     )
 }

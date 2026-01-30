@@ -50,7 +50,7 @@ fun AboutAppCard(
                 text = stringResource(R.string.app_info_text),
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Justify,
+                textAlign = TextAlign.Unspecified,
                 color = Color.Black
             )
         }

@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,16 +47,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eavesdropper.R
+import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
+import com.example.eavesdropper.presentation.viewmodels.ListOfAsksViewModel
 import com.example.eavesdropper.ui.theme.Aqua
 import com.example.eavesdropper.ui.theme.DeepSkyBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationCard(
-    onTextClickListener: () -> Unit
+    onRegisterClick: (String, String) -> Unit,
+    onLoginClick: () -> Unit,
+    isLoading: Boolean,
 ) {
-
     Scaffold(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.primary)
@@ -64,26 +69,28 @@ fun RegistrationCard(
             modifier = Modifier
                 .padding(it)
         ) {
-            Row {
-                RegistrationWelcomeText()
-            }
+            RegistrationWelcomeText()
             Spacer(Modifier.weight(1f))
-            Row {
-                NickLoginPasswordBox(
-                    onTextClickListener
-                )
-            }
+
+            NickLoginPasswordBox(
+                onRegisterClick = onRegisterClick,
+                onLoginClick = onLoginClick,
+                isLoading = isLoading,
+            )
+
             Spacer(Modifier.weight(1f))
-            Row {
-                VersionText()
-            }
+
+            VersionText()
+
         }
     }
 }
 
 @Composable
 fun NickLoginPasswordBox(
-    onTextClickListener: () -> Unit
+    onRegisterClick: (String, String) -> Unit,
+    onLoginClick: () -> Unit,
+    isLoading: Boolean,
 ) {
     Box(
         modifier = Modifier
@@ -114,25 +121,17 @@ fun NickLoginPasswordBox(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            var nickText by remember { mutableStateOf(TextFieldValue("")) }
-            ProfileTextField(
-                value = nickText,
-                onValueChange = { nickText = it },
-                labelRes = R.string.nickname
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            var loginText by remember { mutableStateOf(TextFieldValue("")) }
+            var loginText by rememberSaveable { mutableStateOf("") }
             ProfileTextField(
                 value = loginText,
                 onValueChange = { loginText = it },
-                labelRes = R.string.login_types
+                labelRes = R.string.login_types,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            var passwordText by remember { mutableStateOf(TextFieldValue("")) }
+            var passwordText by rememberSaveable { mutableStateOf("") }
             ProfileTextField(
                 value = passwordText,
                 onValueChange = { passwordText = it },
@@ -143,11 +142,15 @@ fun NickLoginPasswordBox(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            HaveAccountAlready(onTextClickListener)
+            HaveAccountAlready {
+                onLoginClick()
+            }
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            ElevatedButtonRegin {}
+            ElevatedButtonRegin(enabled = !isLoading) {
+                onRegisterClick(loginText, passwordText)
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -163,7 +166,8 @@ fun HaveAccountAlready(onTextClickListener: () -> Unit) {
         horizontalArrangement = Arrangement.Absolute.Center
     ) {
         Text(
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp)
                 .clickable {
                     onTextClickListener()
                 },
@@ -180,8 +184,8 @@ fun HaveAccountAlready(onTextClickListener: () -> Unit) {
 
 @Composable
 fun ProfileTextField(
-    value: TextFieldValue,
-    onValueChange: (TextFieldValue) -> Unit,
+    value: String,
+    onValueChange: (String) -> Unit,
     @StringRes labelRes: Int,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -209,7 +213,10 @@ fun ProfileTextField(
 
 
 @Composable
-fun ElevatedButtonRegin(onClick: () -> Unit) {
+fun ElevatedButtonRegin(
+    enabled: Boolean,
+    onClick: () -> Unit
+) {
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -218,6 +225,7 @@ fun ElevatedButtonRegin(onClick: () -> Unit) {
     ) {
         ElevatedButton(
             onClick = { onClick() },
+            enabled = enabled,
             colors = ButtonDefaults.elevatedButtonColors(
                 containerColor = registrationGetColorForButton(),
                 contentColor = Color.Black,

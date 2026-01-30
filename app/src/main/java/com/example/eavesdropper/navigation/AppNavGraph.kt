@@ -12,9 +12,7 @@ fun AppNavGraph(
     aboutUserScreenContent: @Composable () -> Unit,
     mainScreenContent: @Composable () -> Unit,
     settingsScreenContent: @Composable () -> Unit,
-    listOfAsksScreenContent: @Composable () -> Unit,
-    registrationScreenContent: @Composable () -> Unit,
-    logInScreenContent: @Composable () -> Unit
+    listOfAsksScreenContent: @Composable () -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -27,9 +25,7 @@ fun AppNavGraph(
             listOfAsksScreenContent = listOfAsksScreenContent,
             aboutAppScreenContent = aboutAppScreenContent,
             aboutUserScreenContent = aboutUserScreenContent,
-            logInScreenContent = logInScreenContent,
             settingsScreenContent = settingsScreenContent,
-            registrationScreenContent = registrationScreenContent
         )
     }
 }

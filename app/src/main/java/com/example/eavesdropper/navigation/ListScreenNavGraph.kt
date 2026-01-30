@@ -10,8 +10,6 @@ fun NavGraphBuilder.listScreenNavGraph(
     settingsScreenContent: @Composable () -> Unit,
     aboutAppScreenContent: @Composable () -> Unit,
     aboutUserScreenContent: @Composable () -> Unit,
-    logInScreenContent: @Composable () -> Unit,
-    registrationScreenContent: @Composable () -> Unit
 ) {
     navigation(
         startDestination = Screen.ListOfAsksScreen.route,
@@ -26,14 +24,8 @@ fun NavGraphBuilder.listScreenNavGraph(
         composable(Screen.AboutAccountScreen.route) {
             aboutUserScreenContent()
         }
-        composable(Screen.LogInScreen.route) {
-            logInScreenContent()
-        }
         composable(Screen.ListOfAsksScreen.route) {
             listOfAsksScreenContent()
-        }
-        composable(Screen.RegistrationScreen.route) {
-            registrationScreenContent()
         }
     }
 }

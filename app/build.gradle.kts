@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "2.0.21"
 }
 
@@ -70,6 +71,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
 
+    implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+
     ksp(libs.androidx.lifecycle.compiler)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -88,4 +92,8 @@ dependencies {
     implementation(libs.androidx.compose.runtime.livedata)
 
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 }
