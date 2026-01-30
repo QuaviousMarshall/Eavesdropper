@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.screens.main
 
 import androidx.compose.foundation.background
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,7 +14,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.eavesdropper.navigation.AppNavGraph
 import com.example.eavesdropper.navigation.Screen
 import com.example.eavesdropper.navigation.rememberNavigationState
+import com.example.eavesdropper.presentation.screens.settings.AboutAppCard
+import com.example.eavesdropper.presentation.screens.settings.AboutUserCard
+import com.example.eavesdropper.presentation.screens.list.ListOfAsksCard
+import com.example.eavesdropper.presentation.screens.settings.SettingsCard
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
+import com.example.eavesdropper.presentation.ui.components.BottomBar
+import com.example.eavesdropper.presentation.ui.components.ListTopBar
+import com.example.eavesdropper.presentation.ui.components.SettingsTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

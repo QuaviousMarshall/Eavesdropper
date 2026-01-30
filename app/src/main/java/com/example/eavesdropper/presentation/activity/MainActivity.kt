@@ -1,9 +1,10 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.eavesdropper.ui.theme.EavesdropperTheme
+import com.example.eavesdropper.presentation.app.AppRoot
+import com.example.eavesdropper.presentation.ui.theme.EavesdropperTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

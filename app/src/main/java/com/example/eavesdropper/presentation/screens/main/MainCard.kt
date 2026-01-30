@@ -1,6 +1,5 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.screens.main
 
-import android.widget.Toast
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -44,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
-import com.example.eavesdropper.ui.theme.Aqua
-import com.example.eavesdropper.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.ui.theme.Aqua
+import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

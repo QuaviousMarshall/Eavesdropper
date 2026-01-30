@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.screens.settings
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColor
@@ -32,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
-import com.example.eavesdropper.ui.theme.Aqua
-import com.example.eavesdropper.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.ui.theme.Aqua
+import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

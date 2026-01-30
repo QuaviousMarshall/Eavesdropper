@@ -9,12 +9,12 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ask"
         android:label="@string/app_name"
-        android:name=".presentation.EavesdropperApp"
+        android:name=".presentation.app.EavesdropperApp"
         android:roundIcon="@mipmap/ask_rounded"
         android:supportsRtl="true"
         android:theme="@style/Theme.Eavesdropper">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.activity.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Eavesdropper"
             android:windowSoftInputMode="adjustResize"

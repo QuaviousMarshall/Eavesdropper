@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.app
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

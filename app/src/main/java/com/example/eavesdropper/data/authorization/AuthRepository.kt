@@ -1,6 +1,6 @@
 package com.example.eavesdropper.data.authorization
 
-import com.example.eavesdropper.presentation.UserInfo
+import com.example.eavesdropper.domain.entity.UserInfo
 
 interface AuthRepository {
     suspend fun signIn(email: String, password: String): Result<Unit>

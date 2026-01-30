@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.di
 
 import com.example.eavesdropper.data.authorization.AuthRepository
 import com.example.eavesdropper.data.authorization.AuthRepositoryImpl

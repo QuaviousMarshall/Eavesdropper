@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.screens.list
 
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
@@ -38,8 +38,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.presentation.viewmodels.ListOfAsksViewModel
-import com.example.eavesdropper.ui.theme.Aqua
-import com.example.eavesdropper.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.ui.theme.Aqua
+import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

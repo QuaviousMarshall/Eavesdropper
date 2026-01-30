@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,10 +10,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.eavesdropper.data.authorization.AuthState
 import com.example.eavesdropper.navigation.AuthNavGraph
+import com.example.eavesdropper.presentation.screens.main.MainScreen
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
 
 @Composable

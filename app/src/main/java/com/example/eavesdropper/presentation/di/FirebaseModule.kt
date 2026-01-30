@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation
+package com.example.eavesdropper.presentation.di
 
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module

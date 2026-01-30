@@ -1,6 +1,5 @@
-package com.example.eavesdropper.ui.theme
+package com.example.eavesdropper.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

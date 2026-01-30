@@ -1,4 +1,4 @@
-package com.example.eavesdropper.ui.theme
+package com.example.eavesdropper.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

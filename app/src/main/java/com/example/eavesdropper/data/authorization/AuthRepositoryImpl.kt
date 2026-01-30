@@ -1,6 +1,6 @@
 package com.example.eavesdropper.data.authorization
 
-import com.example.eavesdropper.presentation.UserInfo
+import com.example.eavesdropper.domain.entity.UserInfo
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
