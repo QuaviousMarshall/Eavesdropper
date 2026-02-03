@@ -7,6 +7,9 @@
     <string name="turn_on_thron">Включить трон</string>
     <string name="version_1_0_1">Версия 1.0.1</string>
     <string name="dont_authorized">Ещё не зарегистрированы?</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="send_code">Прислать код на почту</string>
+    <string name="type_email">Введите почту, которая была указана при регистрации</string>
     <string name="authorized_already">Уже есть аккаунт?</string>
     <string name="entrance_in_account">Вход в аккаунт</string>
     <string name="registration">Регистрация</string>
@@ -15,7 +18,7 @@
     <string name="about_user_login">Логин:</string>
     <string name="about_user_nickname">Никнейм:</string>
     <string name="asks">Запросы</string>
-    <string name="login_types">Почта или номер телефона</string>
+    <string name="login_types">Почта</string>
     <string name="password">Пароль</string>
     <string name="log_in">Войти</string>
     <string name="reg_in">Зарегистрироваться</string>
@@ -24,7 +27,7 @@
     <string name="about_app">О приложении</string>
     <string name="log_out_button">Выйти из аккаунта</string>
     <string name="about_account">Об аккаунте</string>
-    <string name="app_info_text">Данное приложение является скрытым ИИ-помощником, считывающим ваши вопросы в фоновом режиме и предоставляющим краткие ответы в виде уведомлений. \nДля корректной работы приложение рекомендуется находится в тихом месте и отчётливо формулировать свой вопрос. В случае, если работа приложения не требуется - она отключается в ручную посредством закрытия вкладки. \nВ случае возникновения вопросов, телеграмм для связи: @apeslayerbaby</string>
+    <string name="app_info_text">Данное приложение является скрытым ИИ-помощником, считывающим ваши вопросы в фоновом режиме и предоставляющим краткие ответы в виде уведомлений. \nДля корректной работы приложения рекомендуется находится в тихом месте и отчётливо формулировать свой вопрос. В случае, если работа приложения не требуется - оно отключается в ручную, посредством закрытия вкладки. \nВ случае возникновения вопросов, телеграмм для связи: @apeslayerbaby</string>
     <string name="account_creating_date">Дата создания аккаунта:</string>
     <string name="count_of_asks">Общее число запросов:</string>
 </resources>

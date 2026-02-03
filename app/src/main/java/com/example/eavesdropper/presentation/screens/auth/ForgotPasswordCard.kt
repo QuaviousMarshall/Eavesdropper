@@ -24,7 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,10 +48,8 @@ import com.example.eavesdropper.presentation.ui.theme.myColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogInCard(
-    onLoginClick: (String, String) -> Unit,
-    onRegisterClick: () -> Unit,
-    onForgotPasswordClick: () -> Unit,
+fun ForgotPasswordCard(
+    onSendCodeClick: (String) -> Unit,
     isLoading: Boolean
 ) {
     Scaffold(
@@ -65,15 +62,10 @@ fun LogInCard(
         ) {
             LogInWelcomeText()
             Spacer(Modifier.weight(1f))
-            LoginPasswordBox(
-                onLoginClick = onLoginClick,
-                onForgotPasswordClick = onForgotPasswordClick,
+            Box(
+                onSendCodeClick = onSendCodeClick,
                 isLoading = isLoading
             )
-            Spacer(Modifier.weight(1f))
-            DontHaveAccountYet {
-                onRegisterClick()
-            }
             Spacer(Modifier.weight(1f))
             VersionText()
         }
@@ -81,9 +73,8 @@ fun LogInCard(
 }
 
 @Composable
-fun LoginPasswordBox(
-    onLoginClick: (String, String) -> Unit,
-    onForgotPasswordClick: () -> Unit,
+fun Box(
+    onSendCodeClick: (String) -> Unit,
     isLoading: Boolean,
 ) {
     Box(
@@ -103,7 +94,7 @@ fun LoginPasswordBox(
             ) {
                 Text(
                     modifier = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp),
-                    text = stringResource(R.string.entrance_in_account),
+                    text = stringResource(R.string.forgot_password),
                     fontSize = 25.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.Medium,
@@ -111,7 +102,8 @@ fun LoginPasswordBox(
                     color = Color.Black
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
+            ForgotPasswordText()
 
             var loginText by rememberSaveable { mutableStateOf("") }
             OutlinedTextField(
@@ -124,7 +116,7 @@ fun LoginPasswordBox(
                 label = {
                     Text(
                         text = stringResource(
-                            R.string.login
+                            R.string.login_types
                         ),
                         fontSize = 10.sp,
                         fontFamily = FontFamily.Serif,
@@ -133,68 +125,18 @@ fun LoginPasswordBox(
                     )
                 }
             )
-            var passwordText by rememberSaveable { mutableStateOf("") }
-            Spacer(modifier = Modifier.height(12.dp))
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp)
-                    .fillMaxWidth(),
-                value = passwordText,
-                enabled = !isLoading,
-                visualTransformation = PasswordVisualTransformation(),
-                onValueChange = { passwordText = it },
-                label = {
-                    Text(
-                        text = stringResource(
-                            R.string.password
-                        ),
-                        fontSize = 10.sp,
-                        fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.Black
-                    )
-                }
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            ForgotPassword {
-                onForgotPasswordClick()
+            Spacer(modifier = Modifier.height(16.dp))
+            ElevatedButtonSendCode(enabled = !isLoading) {
+                onSendCodeClick(loginText)
             }
-            Spacer(modifier = Modifier.height(4.dp))
-            ElevatedButtonLogin(enabled = !isLoading) {
-                onLoginClick(loginText, passwordText)
-            }
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
 
-@Composable
-fun DontHaveAccountYet(onTextClickListener: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Absolute.Center
-    ) {
-        Text(
-            modifier = Modifier
-                .padding(start = 8.dp, end = 8.dp)
-                .clickable {
-                    onTextClickListener()
-                },
-            text = stringResource(R.string.dont_authorized),
-            fontSize = 12.sp,
-            fontFamily = FontFamily.Serif,
-            textDecoration = TextDecoration.Underline,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Justify,
-            color = DeepSkyBlue
-        )
-    }
-}
 
 @Composable
-fun ForgotPassword(onTextClickListener: () -> Unit) {
+fun ForgotPasswordText() {
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -203,14 +145,10 @@ fun ForgotPassword(onTextClickListener: () -> Unit) {
     ) {
         Text(
             modifier = Modifier
-                .padding(start = 8.dp, end = 8.dp)
-                .clickable {
-                    onTextClickListener()
-                },
-            text = stringResource(R.string.forgot_password),
+                .padding(start = 8.dp, end = 8.dp),
+            text = stringResource(R.string.type_email),
             fontSize = 12.sp,
             fontFamily = FontFamily.Serif,
-            textDecoration = TextDecoration.Underline,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Justify,
             color = Color.Black
@@ -219,27 +157,7 @@ fun ForgotPassword(onTextClickListener: () -> Unit) {
 }
 
 @Composable
-fun VersionText() {
-    Row(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Absolute.Center
-    ) {
-        Text(
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-            text = stringResource(R.string.version_1_0_1),
-            fontSize = 10.sp,
-            fontFamily = FontFamily.Serif,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Justify,
-            color = DeepSkyBlue
-        )
-    }
-}
-
-@Composable
-fun ElevatedButtonLogin(
+fun ElevatedButtonSendCode(
     enabled: Boolean,
     onClick: () -> Unit
 ) {
@@ -260,48 +178,10 @@ fun ElevatedButtonLogin(
             )
         ) {
             Text(
-                stringResource((R.string.log_in)),
+                stringResource((R.string.send_code)),
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Medium
             )
-        }
-    }
-}
-
-@Composable
-fun LogInWelcomeText() {
-    Box(
-        modifier = Modifier
-            .padding(top = 32.dp, start = 32.dp, end = 32.dp, bottom = 1.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Center
-            ) {
-                Text(
-                    text = stringResource(id = R.string.app_name),
-                    fontSize = 80.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Bold,
-                    color = DeepSkyBlue,
-                    textAlign = TextAlign.Center
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Center
-            ) {
-                Text(
-                    text = stringResource(id = R.string.yours_hidden_helper),
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Medium,
-                    color = DeepSkyBlue,
-                    textAlign = TextAlign.Center
-                )
-            }
         }
     }
 }

@@ -32,6 +32,11 @@ class AuthRepositoryImpl @Inject constructor(
         auth.signOut()
     }
 
+    override suspend fun resetPassword(email: String): Result<Unit> =
+        runCatching {
+            auth.sendPasswordResetEmail(email).await()
+        }
+
     override fun getUserInfo(): UserInfo? {
         val user = auth.currentUser ?: return null
         val createdAt = user.metadata?.creationTimestamp ?: return null

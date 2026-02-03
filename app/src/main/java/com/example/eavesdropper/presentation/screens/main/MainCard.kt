@@ -1,6 +1,5 @@
 package com.example.eavesdropper.presentation.screens.main
 
-import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -43,8 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
-import com.example.eavesdropper.presentation.ui.theme.Aqua
-import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.ui.theme.myColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,20 +76,10 @@ fun MainCard(paddingValues: PaddingValues) {
 fun Last3AsksList(
     last3ASksList: List<Ask>
 ) {
-    val transition = rememberInfiniteTransition()
-    val color by transition.animateColor(
-        initialValue = Color.LightGray,
-        targetValue = MaterialTheme.colorScheme.onBackground,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
     Box(
         modifier = Modifier
             .padding(16.dp)
             .clip(shape = RoundedCornerShape(16.dp))
-            .border(0.5.dp, Color.LightGray)
             .background(MaterialTheme.colorScheme.onBackground),
         contentAlignment = Alignment.Center
     ) {
@@ -118,10 +106,11 @@ fun Last3AsksList(
                     val ask = last3ASksList[size]
                     Row(
                         modifier = Modifier
-                            .padding(4.dp)
-                            .clip(RoundedCornerShape(8.dp))
+                            .padding(8.dp)
+                            .clip(RoundedCornerShape(2.dp))
                             .fillMaxWidth()
-                            .background(color)
+                            .border(1.dp, Color.Black)
+                            .background(MaterialTheme.colorScheme.onPrimary)
                     ) {
                         Text(
                             modifier = Modifier.padding(8.dp),
@@ -153,14 +142,7 @@ fun Last3AsksList(
 @Composable
 fun AskMainIcon() {
     val transition = rememberInfiniteTransition()
-    val color by transition.animateColor(
-        initialValue = Aqua,
-        targetValue = DeepSkyBlue,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
+    val color = myColor()
     val scale by transition.animateFloat(
         initialValue = 0.95f,
         targetValue = 1f,
@@ -181,6 +163,7 @@ fun AskMainIcon() {
 
 @Composable
 fun ElevatedButtonOn(onClick: () -> Unit) {
+    val color = myColor()
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -189,7 +172,7 @@ fun ElevatedButtonOn(onClick: () -> Unit) {
         ElevatedButton(
             onClick = { onClick() },
             colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = MaterialTheme.colorScheme.onPrimary,
+                containerColor = color,
                 contentColor = Color.Black,
                 disabledContainerColor = Color.Gray,
                 disabledContentColor = Color.Black

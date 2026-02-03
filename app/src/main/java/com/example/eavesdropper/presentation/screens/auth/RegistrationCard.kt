@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
 import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.ui.theme.myColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,8 +92,7 @@ fun NickLoginPasswordBox(
         modifier = Modifier
             .padding(bottom = 1.dp, start = 32.dp, end = 32.dp, top = 1.dp)
             .clip(shape = RoundedCornerShape(16.dp))
-            .border(1.dp, Color.LightGray)
-            .background(color = registrationGetColor()),
+            .background(color = MaterialTheme.colorScheme.onPrimary),
         contentAlignment = Alignment.Center
     ) {
         Column {
@@ -222,7 +222,7 @@ fun ElevatedButtonRegin(
             onClick = { onClick() },
             enabled = enabled,
             colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = registrationGetColorForButton(),
+                containerColor = myColor(),
                 contentColor = Color.Black,
                 disabledContainerColor = Color.Gray,
                 disabledContentColor = Color.Black
@@ -273,32 +273,4 @@ fun RegistrationWelcomeText() {
             }
         }
     }
-}
-
-@Composable
-fun registrationGetColorForButton(): Color {
-    val transition = rememberInfiniteTransition()
-    val color by transition.animateColor(
-        initialValue = Aqua,
-        targetValue = DeepSkyBlue,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-    return color
-}
-
-@Composable
-fun registrationGetColor(): Color {
-    val transition = rememberInfiniteTransition()
-    val color by transition.animateColor(
-        initialValue = Aqua,
-        targetValue = DeepSkyBlue,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-    return color
 }

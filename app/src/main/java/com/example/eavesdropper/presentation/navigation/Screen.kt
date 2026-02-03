@@ -1,4 +1,4 @@
-package com.example.eavesdropper.navigation
+package com.example.eavesdropper.presentation.navigation
 
 sealed class Screen(
     val route: String
@@ -8,6 +8,7 @@ sealed class Screen(
     object LogInScreen: Screen(ROUTE_LOG_IN_SCREEN)
     object RegistrationScreen: Screen(ROUTE_REGISTRATION_SCREEN)
     object SettingsScreen: Screen(ROUTE_SETTINGS_SCREEN)
+    object ForgotPasswordScreen: Screen(FORGOT_PASSWORD_SCREEN)
     object List: Screen(ROUTE_LIST)
     object AboutAppScreen: Screen(ROUTE_ABOUT_APP_SCREEN)
     object AboutAccountScreen: Screen(ROUTE_ABOUT_ACCOUNT_SCREEN)
@@ -17,6 +18,7 @@ sealed class Screen(
 
         const val ROUTE_MAIN_SCREEN = "main_screen"
         const val ROUTE_LOG_IN_SCREEN = "log_in_screen"
+        const val FORGOT_PASSWORD_SCREEN = "forgot_password_screen"
         const val ROUTE_LIST = "list"
         const val ROUTE_REGISTRATION_SCREEN = "registration_screen"
         const val ROUTE_SETTINGS_SCREEN = "settings_screen"

@@ -5,7 +5,7 @@ import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.material.icons.twotone.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.eavesdropper.R
-import com.example.eavesdropper.navigation.Screen
+import com.example.eavesdropper.presentation.navigation.Screen
 
 sealed class NavigationItem(
     val screen: Screen,

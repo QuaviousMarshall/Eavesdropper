@@ -1,4 +1,4 @@
-package com.example.eavesdropper.navigation
+package com.example.eavesdropper.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

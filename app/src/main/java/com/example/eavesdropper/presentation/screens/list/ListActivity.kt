@@ -80,14 +80,15 @@ fun ListOfAsksCard(
                         modifier = Modifier
                             .padding(16.dp)
                             .fillMaxSize()
-                            .background(Color.Red.copy(alpha = 0.6f)),
+                            .clip(shape = RoundedCornerShape(20.dp))
+                            .background(listOfAsksGetColor()),
                         contentAlignment = Alignment.CenterEnd
                     ) {
                         Text(
                             modifier = Modifier.padding(8.dp),
                             text = stringResource(R.string.delete_ask),
                             fontFamily = FontFamily.Serif,
-                            fontSize = 8.sp,
+                            fontSize = 10.sp,
                             fontWeight = FontWeight.Normal,
                             color = Color.Black
                         )
