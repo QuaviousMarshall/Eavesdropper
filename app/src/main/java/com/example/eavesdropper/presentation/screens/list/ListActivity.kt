@@ -23,6 +23,7 @@ import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
@@ -46,14 +48,15 @@ import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 fun ListOfAsksCard(
     paddingValues: PaddingValues
 ) {
-    val viewModel: ListOfAsksViewModel = viewModel()
-    val asks = viewModel.asks.observeAsState(listOf())
+    val viewModel: ListOfAsksViewModel = hiltViewModel()
+    val asks by viewModel.asks.collectAsState()
+
     LazyColumn(
         modifier = Modifier.padding(paddingValues),
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(asks.value, key = { it.id }) { ask ->
+        items(asks, key = { it.id }) { ask ->
 
             val dismissBoxState = rememberSwipeToDismissBoxState(
                 positionalThreshold = { it * 0.5f },

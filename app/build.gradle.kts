@@ -82,6 +82,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(libs.retrofit)
+    implementation("com.google.code.gson:gson:2.13.2")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.fragment.compose)

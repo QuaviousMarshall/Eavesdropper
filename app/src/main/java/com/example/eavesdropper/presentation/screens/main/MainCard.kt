@@ -26,6 +26,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,13 +41,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.presentation.ui.theme.myColor
+import com.example.eavesdropper.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainCard(paddingValues: PaddingValues) {
+fun MainCard(
+    paddingValues: PaddingValues,
+    viewModel: MainViewModel = hiltViewModel()
+) {
+
+    val last3Asks by viewModel.last3Asks.collectAsState()
+    val isTronEnabled by viewModel.isTronEnabled.collectAsState()
+    val isLoading by viewModel.isTransitionInProgress.collectAsState()
 
     Column(
         modifier = Modifier
@@ -54,19 +64,19 @@ fun MainCard(paddingValues: PaddingValues) {
             .verticalScroll(rememberScrollState())
     ) {
         Row {
-            AskMainIcon()
+            AskMainIcon(isActive = isTronEnabled)
         }
+
         Row {
-            val asks = listOf(
-                Ask(0, "0 + 0", "0"),
-                Ask(1, "1 + 0", "1"),
-                Ask(2, "1 + 1", "2"),
-                Ask(3, "1 + 2", "3"),
-                Ask(4, "2 + 2", "4")
-            )
-            Last3AsksList(asks)
+            Last3AsksList(last3Asks)
         }
-        ElevatedButtonOn { }
+
+        TronToggleButton(
+            isEnabled = isTronEnabled,
+            isLoading = isLoading,
+            onClick = viewModel::onTronButtonClick
+        )
+
         Spacer(Modifier.height(32.dp))
     }
 }
@@ -74,115 +84,138 @@ fun MainCard(paddingValues: PaddingValues) {
 
 @Composable
 fun Last3AsksList(
-    last3ASksList: List<Ask>
+    last3AsksList: List<Ask>
 ) {
+
+    if (last3AsksList.isEmpty()) return
+
     Box(
         modifier = Modifier
             .padding(16.dp)
             .clip(shape = RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.onBackground),
+            .background(myColor()),
         contentAlignment = Alignment.Center
     ) {
         Column {
             Spacer(Modifier.height(8.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Center,
-            ) {
-                Text(
-                    text = stringResource(R.string.last_3_asks),
-                    fontSize = 20.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center,
-                    color = Color.Black
-                )
-            }
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.last_3_asks),
+                fontSize = 18.sp,
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                color = Color.Black
+            )
+
             Spacer(Modifier.height(16.dp))
-            Column {
-                var size = last3ASksList.size - 1
-                repeat(3) {
-                    val ask = last3ASksList[size]
-                    Row(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .clip(RoundedCornerShape(2.dp))
-                            .fillMaxWidth()
-                            .border(1.dp, Color.Black)
-                            .background(MaterialTheme.colorScheme.onPrimary)
-                    ) {
-                        Text(
-                            modifier = Modifier.padding(8.dp),
-                            text = ask.question + "?",
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily.Serif,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Justify,
-                            color = Color.Black
-                        )
-                        Text(
-                            modifier = Modifier.padding(8.dp),
-                            text = ": " + ask.answer,
-                            fontSize = 20.sp,
-                            fontFamily = FontFamily.Serif,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Justify,
-                            color = Color.Black
-                        )
-                    }
-                    Spacer(Modifier.height(8.dp))
-                    size--
-                }
+
+            last3AsksList.forEach { ask ->
+                AskRow(ask)
+                Spacer(Modifier.height(8.dp))
             }
         }
     }
 }
 
 @Composable
-fun AskMainIcon() {
-    val transition = rememberInfiniteTransition()
-    val color = myColor()
+fun AskMainIcon(isActive: Boolean) {
+    val transition = rememberInfiniteTransition(label = "tron")
     val scale by transition.animateFloat(
         initialValue = 0.95f,
-        targetValue = 1f,
-        animationSpec =
-            infiniteRepeatable(
-                animation = tween(3000),
-                repeatMode = RepeatMode.Reverse,
-            ),
+        targetValue = if (isActive) 1.1f else 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "scale"
     )
-    Box(modifier = Modifier.graphicsLayer(scaleX = scale, scaleY = scale)) {
+
+    val tint = if (isActive) myColor() else Color.Gray
+
+    Box(
+        modifier = Modifier.graphicsLayer(
+            scaleX = scale,
+            scaleY = scale
+        )
+    ) {
         Image(
             painter = painterResource(R.drawable.question_mark_circle_svg_icon),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(color),
+            colorFilter = ColorFilter.tint(tint)
         )
     }
 }
 
+
 @Composable
-fun ElevatedButtonOn(onClick: () -> Unit) {
-    val color = myColor()
+fun TronToggleButton(
+    isEnabled: Boolean,
+    isLoading: Boolean,
+    onClick: () -> Unit
+) {
+    val containerColor =
+        when {
+            isLoading -> Color.Red
+            isEnabled -> myColor()
+            else -> Color.Gray
+        }
+
+    val text =
+        when {
+            isLoading -> stringResource(R.string.tron_starting)
+            isEnabled -> stringResource(R.string.turn_off_thron)
+            else -> stringResource(R.string.turn_on_thron)
+        }
+
     Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Absolute.Center,
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
     ) {
         ElevatedButton(
-            onClick = { onClick() },
+            onClick = onClick,
+            enabled = !isLoading,
             colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = color,
-                contentColor = Color.Black,
-                disabledContainerColor = Color.Gray,
-                disabledContentColor = Color.Black
+                containerColor = containerColor,
+                contentColor = Color.Black
             )
         ) {
             Text(
-                stringResource(R.string.turn_on_thron),
+                text = text,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Medium
             )
         }
     }
 }
+
+
+@Composable
+fun AskRow(ask: Ask) {
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.primary)
+    ) {
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = "${ask.question}?",
+            fontSize = 14.sp,
+            fontFamily = FontFamily.Serif,
+            fontWeight = FontWeight.Medium,
+            color = Color.Black
+        )
+        Text(
+            modifier = Modifier.padding(8.dp),
+            text = ask.answer,
+            fontSize = 14.sp,
+            fontFamily = FontFamily.Serif,
+            fontWeight = FontWeight.Medium,
+            color = Color.Black
+        )
+    }
+}
+

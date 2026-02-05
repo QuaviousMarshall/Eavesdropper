@@ -1,15 +1,15 @@
 package com.example.eavesdropper.data.database
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Query
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AskDao {
-    @Query("SELECT * FROM ask_info")
-    fun getAsksList(): LiveData<List<AskDbModel>>
+    @Query("SELECT * FROM ask_info ORDER BY id DESC")
+    fun getAsksList(): Flow<List<AskDbModel>>
 
     @Query("DELETE FROM ask_info WHERE id = :askId")
     suspend fun deleteAsk(askId: Int)

@@ -1,16 +1,12 @@
 package com.example.eavesdropper.presentation.viewmodels
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.eavesdropper.R
 import com.example.eavesdropper.data.authorization.AuthRepository
 import com.example.eavesdropper.data.authorization.AuthState
 import com.example.eavesdropper.domain.entity.UserInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject

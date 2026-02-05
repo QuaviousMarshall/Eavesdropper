@@ -5,6 +5,8 @@
     <string name="top_bar_settings">Настройки</string>
     <string name="last_3_asks">Последние три запроса:</string>
     <string name="turn_on_thron">Включить трон</string>
+    <string name="turn_off_thron">Выключить трон</string>
+    <string name="tron_starting">Трон подслушивает..</string>
     <string name="version_1_0_1">Версия 1.0.1</string>
     <string name="dont_authorized">Ещё не зарегистрированы?</string>
     <string name="forgot_password">Забыли пароль?</string>

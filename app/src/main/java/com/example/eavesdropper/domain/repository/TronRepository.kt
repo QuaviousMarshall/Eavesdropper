@@ -1,7 +1,7 @@
 package com.example.eavesdropper.domain.repository
 
-import androidx.lifecycle.LiveData
 import com.example.eavesdropper.domain.entity.Ask
+import kotlinx.coroutines.flow.Flow
 
 interface TronRepository {
 
@@ -9,5 +9,5 @@ interface TronRepository {
 
     suspend fun addAsk(ask: Ask)
 
-    fun getAsks(): LiveData<List<Ask>>
+    fun getAsks(): Flow<List<Ask>>
 }

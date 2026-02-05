@@ -2,8 +2,9 @@ package com.example.eavesdropper.data.mapper
 
 import com.example.eavesdropper.data.database.AskDbModel
 import com.example.eavesdropper.domain.entity.Ask
+import javax.inject.Inject
 
-class AskMapper {
+class AskMapper @Inject constructor() {
 
     fun mapDbModelToEntity(dbModel: AskDbModel) = Ask(
         id = dbModel.id,
