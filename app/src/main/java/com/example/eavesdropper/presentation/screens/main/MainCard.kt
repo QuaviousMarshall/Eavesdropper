@@ -63,13 +63,10 @@ fun MainCard(
             .padding(paddingValues)
             .verticalScroll(rememberScrollState())
     ) {
-        Row {
-            AskMainIcon(isActive = isTronEnabled)
-        }
 
-        Row {
-            Last3AsksList(last3Asks)
-        }
+        AskMainIcon(isActive = isTronEnabled)
+
+        Last3AsksList(last3Asks)
 
         TronToggleButton(
             isEnabled = isTronEnabled,

@@ -19,6 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,10 +31,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.eavesdropper.R
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
 import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.viewmodels.ListOfAsksViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -48,6 +51,8 @@ fun AboutUserCard(
         viewModel.getUserInfo()
     }
 
+    val viewModel: ListOfAsksViewModel = hiltViewModel()
+    val asks by viewModel.asks.collectAsState()
 
     Column(
         modifier = Modifier
@@ -69,7 +74,16 @@ fun AboutUserCard(
         }
 
         ProfileInfoRow {
-            ProfileInfoText(R.string.count_of_asks)
+            ProfileInfoText(R.string.count_of_asks, modifier = Modifier.weight(1f))
+            Text(
+                text = "${asks.size}",
+                fontSize = 12.sp,
+                modifier = Modifier.padding(8.dp),
+                fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                color = Color.Black
+            )
         }
 
         ProfileInfoRow {

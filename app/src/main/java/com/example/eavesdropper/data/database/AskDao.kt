@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AskDao {
-    @Query("SELECT * FROM ask_info ORDER BY id DESC")
+    @Query("SELECT * FROM ask_info ORDER BY createdAt DESC")
     fun getAsksList(): Flow<List<AskDbModel>>
 
     @Query("DELETE FROM ask_info WHERE id = :askId")

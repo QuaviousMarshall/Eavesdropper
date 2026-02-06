@@ -41,14 +41,7 @@ class AndroidSpeechRecognizer @Inject constructor(
                 restart()
             }
 
-            override fun onPartialResults(partialResults: Bundle) {
-                val text =
-                    partialResults.getStringArrayList(
-                        SpeechRecognizer.RESULTS_RECOGNITION
-                    )?.firstOrNull()
-
-                text?.let(detector::onText)
-            }
+            override fun onPartialResults(partialResults: Bundle) { }
 
             override fun onError(error: Int) {
                 restart()

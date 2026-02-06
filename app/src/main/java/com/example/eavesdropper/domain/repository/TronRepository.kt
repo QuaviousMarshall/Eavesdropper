@@ -10,4 +10,5 @@ interface TronRepository {
     suspend fun addAsk(ask: Ask)
 
     fun getAsks(): Flow<List<Ask>>
+
 }

@@ -29,13 +29,14 @@ object SpeechModule {
     ): QuestionDetector =
         QuestionDetectorImpl { question ->
             CoroutineScope(Dispatchers.IO).launch {
-                repository.addAsk(
-                    Ask(
-                        id = question.hashCode(),
-                        question = question,
-                        answer = ""
-                    )
+
+                val ask = Ask(
+                    question = question,
+                    answer = "",
+                    createdAt = System.currentTimeMillis()
                 )
+
+                repository.addAsk(ask)
             }
         }
 

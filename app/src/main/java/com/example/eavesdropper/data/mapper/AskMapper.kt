@@ -9,12 +9,14 @@ class AskMapper @Inject constructor() {
     fun mapDbModelToEntity(dbModel: AskDbModel) = Ask(
         id = dbModel.id,
         question = dbModel.question,
-        answer = dbModel.answer
+        answer = dbModel.answer,
+        createdAt = dbModel.createdAt
     )
 
     fun mapEntityToDbModel(ask: Ask) = AskDbModel(
         id = ask.id,
         question = ask.question,
-        answer = ask.answer
+        answer = ask.answer,
+        createdAt = ask.createdAt
     )
 }

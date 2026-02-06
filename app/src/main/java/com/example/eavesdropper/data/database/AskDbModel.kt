@@ -5,8 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "ask_info")
 data class AskDbModel(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val question: String,
-    val answer: String
+    val answer: String,
+    val createdAt: Long
 )
