@@ -14,11 +14,15 @@ class QuestionDetectorImpl(
                     normalized.startsWith("почему ") ||
                     normalized.startsWith("зачем ") ||
                     normalized.startsWith("cколько ") ||
+                    normalized.startsWith("во cколько ") ||
                     normalized.startsWith("где ") ||
                     normalized.startsWith("какая ") ||
+                    normalized.startsWith("куда ") ||
                     normalized.startsWith("какой ") ||
                     normalized.startsWith("когда ") ||
                     normalized.startsWith("разве ") ||
+                    normalized.startsWith("кем ") ||
+                    normalized.startsWith("чем ") ||
                     normalized.startsWith("кому ")
 
         if (isQuestion) {

@@ -195,7 +195,7 @@ fun AskRow(ask: Ask) {
             .padding(horizontal = 8.dp)
             .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(Color.White)
     ) {
         Text(
             modifier = Modifier.padding(8.dp),
