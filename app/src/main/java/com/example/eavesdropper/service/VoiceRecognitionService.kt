@@ -36,7 +36,7 @@ class VoiceRecognitionService : Service() {
     private fun notification(): Notification {
         val channelId = "voice_recognition"
 
-        if (Build.VERSION.SDK_INT >= 26) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
                 "Voice recognition",
@@ -48,8 +48,8 @@ class VoiceRecognitionService : Service() {
 
         return NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.mic)
-            .setContentTitle("Трон слушает")
-            .setContentText("Распознавание речи активно")
+            .setContentTitle(getString(R.string.tron_starting))
+            .setContentText(getString(R.string.speech_detector_is_active))
             .build()
     }
 }

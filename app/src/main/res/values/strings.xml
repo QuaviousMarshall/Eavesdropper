@@ -7,6 +7,7 @@
     <string name="turn_on_thron">Включить трон</string>
     <string name="turn_off_thron">Выключить трон</string>
     <string name="tron_starting">Трон подслушивает..</string>
+    <string name="mic_permission_required">Предоставьте разрешение на использование микрофона</string>
     <string name="version_1_0_1">Версия 1.0.1</string>
     <string name="dont_authorized">Ещё не зарегистрированы?</string>
     <string name="forgot_password">Забыли пароль?</string>
@@ -32,4 +33,5 @@
     <string name="app_info_text">Данное приложение является скрытым ИИ-помощником, считывающим ваши вопросы в фоновом режиме и предоставляющим краткие ответы в виде уведомлений. \nДля корректной работы приложения рекомендуется находится в тихом месте и отчётливо формулировать свой вопрос. В случае, если работа приложения не требуется - оно отключается в ручную, посредством закрытия вкладки. \nВ случае возникновения вопросов, телеграмм для связи: @apeslayerbaby</string>
     <string name="account_creating_date">Дата создания аккаунта:</string>
     <string name="count_of_asks">Общее число запросов:</string>
+    <string name="speech_detector_is_active">Распознавание речи активно</string>
 </resources>

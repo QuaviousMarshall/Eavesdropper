@@ -1,13 +1,6 @@
 package com.example.eavesdropper.presentation.screens.auth
 
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,14 +29,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
-import com.example.eavesdropper.presentation.ui.theme.Aqua
-import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 import com.example.eavesdropper.presentation.ui.theme.myColor
 
 @OptIn(ExperimentalMaterial3Api::class)
