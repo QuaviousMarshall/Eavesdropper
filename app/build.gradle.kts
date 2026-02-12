@@ -81,7 +81,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
-    implementation(libs.retrofit)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
+    implementation("com.squareup.retrofit2:converter-moshi:3.0.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.2")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
     implementation("com.google.code.gson:gson:2.13.2")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 

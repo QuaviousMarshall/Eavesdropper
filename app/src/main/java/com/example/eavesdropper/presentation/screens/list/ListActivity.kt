@@ -130,9 +130,9 @@ private fun Ask(
                         bottom = 1.dp
                     ),
                     text = ask.question + "?",
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.W600,
                     color = Color.Black
                 )
             }
@@ -149,8 +149,8 @@ private fun Ask(
                     ),
                     text = ": " + ask.answer,
                     fontSize = 14.sp,
-                    fontFamily = FontFamily.Cursive,
-                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.Serif,
+                    fontWeight = FontWeight.W200,
                     color = Color.Black
                 )
             }

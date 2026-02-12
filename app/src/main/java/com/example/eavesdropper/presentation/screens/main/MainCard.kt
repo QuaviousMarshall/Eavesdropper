@@ -246,27 +246,29 @@ private fun hasAudioPermission(context: Context): Boolean {
 
 @Composable
 fun AskRow(ask: Ask) {
-    Row(
+    Column(
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
             .background(Color.White)
+            .padding(horizontal = 4.dp)
     ) {
         Text(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(4.dp),
             text = "${ask.question}?",
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             fontFamily = FontFamily.Serif,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.W600,
             color = Color.Black
         )
+
         Text(
-            modifier = Modifier.padding(8.dp),
-            text = ask.answer,
+            modifier = Modifier.padding(4.dp),
+            text = ": ${ask.answer}",
             fontSize = 14.sp,
             fontFamily = FontFamily.Serif,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.W200,
             color = Color.Black
         )
     }

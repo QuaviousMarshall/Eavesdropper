@@ -6,6 +6,7 @@ import com.example.eavesdropper.data.detector.QuestionDetector
 import com.example.eavesdropper.data.detector.QuestionDetectorImpl
 import com.example.eavesdropper.data.detector.SpeechRecognizerController
 import com.example.eavesdropper.data.detector.SystemSoundController
+import com.example.eavesdropper.data.repository.OpenAiRepository
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.domain.repository.TronRepository
 import dagger.Module
@@ -25,17 +26,17 @@ object SpeechModule {
     @Provides
     @Singleton
     fun provideQuestionDetector(
-        repository: TronRepository
+        repository: TronRepository,
+        openAiRepository: OpenAiRepository
     ): QuestionDetector =
         QuestionDetectorImpl { question ->
             CoroutineScope(Dispatchers.IO).launch {
-
+                val answer = openAiRepository.getShortAnswer(question)
                 val ask = Ask(
                     question = question,
-                    answer = "",
+                    answer = answer,
                     createdAt = System.currentTimeMillis()
                 )
-
                 repository.addAsk(ask)
             }
         }

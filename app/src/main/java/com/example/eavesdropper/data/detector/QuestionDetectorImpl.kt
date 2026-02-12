@@ -1,33 +1,26 @@
 package com.example.eavesdropper.data.detector
 
-class QuestionDetectorImpl(
+import javax.inject.Inject
+
+class QuestionDetectorImpl @Inject constructor(
     private val onQuestionDetected: (String) -> Unit
 ) : QuestionDetector {
 
     override fun onText(text: String) {
         val normalized = text.lowercase().trim()
 
-        val isQuestion =
-            normalized.endsWith("?") ||
-                    normalized.startsWith("как ") ||
-                    normalized.startsWith("что ") ||
-                    normalized.startsWith("почему ") ||
-                    normalized.startsWith("зачем ") ||
-                    normalized.startsWith("cколько ") ||
-                    normalized.startsWith("во cколько ") ||
-                    normalized.startsWith("где ") ||
-                    normalized.startsWith("какая ") ||
-                    normalized.startsWith("куда ") ||
-                    normalized.startsWith("какой ") ||
-                    normalized.startsWith("когда ") ||
-                    normalized.startsWith("разве ") ||
-                    normalized.startsWith("кем ") ||
-                    normalized.startsWith("чем ") ||
-                    normalized.startsWith("кому ")
+        val questionStarters = listOf(
+            "как", "что", "почему", "зачем", "cколько", "во cколько",
+            "где", "какая", "куда", "какой", "когда", "разве", "кем", "чем", "кому"
+        )
+
+        val isQuestion = normalized.endsWith("?") ||
+                questionStarters.any { normalized.startsWith(it) }
 
         if (isQuestion) {
             onQuestionDetected(normalized.removeSuffix("?"))
         }
+
     }
 }
 
