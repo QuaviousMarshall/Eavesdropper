@@ -1,6 +1,8 @@
 package com.example.eavesdropper.presentation.di
 
+import android.Manifest
 import android.content.Context
+import androidx.annotation.RequiresPermission
 import com.example.eavesdropper.data.detector.AndroidSpeechRecognizer
 import com.example.eavesdropper.data.detector.QuestionDetector
 import com.example.eavesdropper.data.detector.QuestionDetectorImpl
@@ -25,9 +27,11 @@ object SpeechModule {
 
     @Provides
     @Singleton
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun provideQuestionDetector(
         repository: TronRepository,
-        openAiRepository: OpenAiRepository
+        openAiRepository: OpenAiRepository,
+        notificationHelper: NotificationHelper
     ): QuestionDetector =
         QuestionDetectorImpl { question ->
             CoroutineScope(Dispatchers.IO).launch {
@@ -38,6 +42,8 @@ object SpeechModule {
                     createdAt = System.currentTimeMillis()
                 )
                 repository.addAsk(ask)
+
+                notificationHelper.showAnswerNotification(question, answer)
             }
         }
 

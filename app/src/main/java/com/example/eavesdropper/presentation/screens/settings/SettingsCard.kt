@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.eavesdropper.R
+import com.example.eavesdropper.presentation.screens.auth.VersionText
 import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 
@@ -61,6 +62,8 @@ fun SettingsCard(
                 onLogoutClick
             )
         }
+        Spacer(Modifier.weight(1f))
+        VersionText()
     }
 }
 

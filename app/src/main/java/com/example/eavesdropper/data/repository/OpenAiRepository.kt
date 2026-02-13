@@ -15,7 +15,7 @@ class OpenAiRepository @Inject constructor(
         return try {
 
             val request = OpenAiResponseRequest(
-                input = "Отвечай строго одним кратким предложением. $question"
+                input = "Отвечай строго одним кратким предложением (максимум 7 слов). $question"
             )
 
             val response = api.createResponse(request)
