@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class AskDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val userId: String,
     val question: String,
     val answer: String,
     val createdAt: Long

@@ -31,17 +31,23 @@ object SpeechModule {
     fun provideQuestionDetector(
         repository: TronRepository,
         openAiRepository: OpenAiRepository,
-        notificationHelper: NotificationHelper
+        notificationHelper: NotificationHelper,
+        sessionManager: SessionManager
     ): QuestionDetector =
         QuestionDetectorImpl { question ->
             CoroutineScope(Dispatchers.IO).launch {
+
+                val userId = sessionManager.currentUserId
+                    ?: return@launch
+
                 val answer = openAiRepository.getShortAnswer(question)
                 val ask = Ask(
                     question = question,
+                    userId = userId,
                     answer = answer,
                     createdAt = System.currentTimeMillis()
                 )
-                repository.addAsk(ask)
+                repository.addAsk(ask, userId)
 
                 notificationHelper.showAnswerNotification(question, answer)
             }

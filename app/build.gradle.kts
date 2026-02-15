@@ -13,6 +13,12 @@ android {
     compileSdk = 36
 
     defaultConfig {
+        buildConfigField(
+            "String",
+            "OPENAI_API_KEY",
+            "\"${project.properties["OPENAI_API_KEY"]}\""
+        )
+
         applicationId = "com.example.eavesdropper"
         minSdk = 24
         targetSdk = 36
@@ -40,6 +46,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

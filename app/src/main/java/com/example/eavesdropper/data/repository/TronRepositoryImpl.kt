@@ -14,14 +14,15 @@ class TronRepositoryImpl @Inject constructor(
     private val mapper: AskMapper
 ) : TronRepository {
 
-    override fun getAsks(): Flow<List<Ask>> =
-        askDao.getAsksList()
+    override fun getAsks(userId: String): Flow<List<Ask>> =
+        askDao.getAsksList(userId)
             .map { list ->
                 list.map(mapper::mapDbModelToEntity)
             }
 
-    override suspend fun addAsk(ask: Ask) {
-        askDao.insertAsk(mapper.mapEntityToDbModel(ask))
+    override suspend fun addAsk(ask: Ask, userId: String) {
+        val dbModel = mapper.mapEntityToDbModel(ask).copy(userId = userId)
+        askDao.insertAsk(dbModel)
     }
 
     override suspend fun deleteAsk(id: Int) {

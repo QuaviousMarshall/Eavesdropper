@@ -1,5 +1,6 @@
 package com.example.eavesdropper.presentation.di
 
+import com.example.eavesdropper.BuildConfig
 import com.example.eavesdropper.data.remote.OpenAiApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -30,7 +31,7 @@ object NetworkModule {
                 val request = chain.request().newBuilder()
                     .addHeader(
                         "Authorization",
-                        "Bearer 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"
+                        "Bearer ${BuildConfig.OPENAI_API_KEY}"
                     )
                     .addHeader("Content-Type", "application/json")
                     .build()

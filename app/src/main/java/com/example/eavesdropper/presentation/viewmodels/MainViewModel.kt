@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.eavesdropper.data.detector.SpeechRecognizerController
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.domain.repository.TronRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -53,8 +54,13 @@ class MainViewModel @Inject constructor(
         _isTronEnabled.value = false
     }
 
+    private val userId: String
+        get() = FirebaseAuth.getInstance().currentUser?.uid
+            ?: throw IllegalStateException("User not authorized")
+
+
     val last3Asks: StateFlow<List<Ask>> =
-        repository.getAsks()
+        repository.getAsks(userId)
             .map { asks ->
                 asks
                     .sortedByDescending { it.id }

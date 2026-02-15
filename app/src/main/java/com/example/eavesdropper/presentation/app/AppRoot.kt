@@ -29,6 +29,7 @@ fun AppRoot() {
 
         AuthState.Authorized -> MainScreen(authViewModel)
 
+        is AuthState.Error -> AuthNavGraph(authViewModel)
     }
 }
 

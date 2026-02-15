@@ -7,8 +7,8 @@ interface TronRepository {
 
     suspend fun deleteAsk(id: Int)
 
-    suspend fun addAsk(ask: Ask)
+    suspend fun addAsk(ask: Ask, userId: String)
 
-    fun getAsks(): Flow<List<Ask>>
+    fun getAsks(userId: String): Flow<List<Ask>>
 
 }

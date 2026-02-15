@@ -2,6 +2,7 @@ package com.example.eavesdropper.presentation.navigation
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
@@ -22,6 +23,25 @@ fun AuthNavGraph(viewModel: AuthViewModel) {
     val authState by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthState.Error -> {
+                Toast.makeText(
+                    context,
+                    (authState as AuthState.Error).message,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                navController.navigate(Screen.LogInScreen.route) {
+                    popUpTo(0) { inclusive = true }
+                }
+
+                viewModel.resetState()
+            }
+            else -> Unit
+        }
+    }
 
     NavHost(
         navController = navController,

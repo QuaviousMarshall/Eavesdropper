@@ -40,6 +40,7 @@ class AuthViewModel @Inject constructor(
             _state.value = AuthState.Loading
             repository.signIn(email, password)
                 .onSuccess { _state.value = AuthState.Authorized }
+                .onFailure { _state.value = AuthState.Error("Неверный логин или пароль") }
         }
     }
 
@@ -55,6 +56,11 @@ class AuthViewModel @Inject constructor(
         repository.signOut()
         _state.value = AuthState.Unauthorized
     }
+
+    fun resetState() {
+        _state.value = AuthState.Unauthorized
+    }
+
 
     fun getUserInfo(): UserInfo? =
         repository.getUserInfo()
