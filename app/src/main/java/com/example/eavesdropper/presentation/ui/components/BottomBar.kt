@@ -26,7 +26,6 @@ fun BottomBar(
 ) {
     NavigationBar(
         modifier = Modifier
-            .height(60.dp)
             .fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.primary,
     ) {

@@ -25,14 +25,9 @@ class MainViewModel @Inject constructor(
     private val _isTronEnabled = MutableStateFlow(false)
     val isTronEnabled: StateFlow<Boolean> = _isTronEnabled.asStateFlow()
 
-    private val _isTransitionInProgress = MutableStateFlow(false)
-    val isTransitionInProgress: StateFlow<Boolean> = _isTransitionInProgress.asStateFlow()
-
     fun onTronButtonClick() {
-        if (_isTransitionInProgress.value) return
 
         viewModelScope.launch {
-            _isTransitionInProgress.value = true
 
             if (_isTronEnabled.value) {
                 stopTron()
@@ -40,7 +35,6 @@ class MainViewModel @Inject constructor(
                 startTron()
             }
 
-            _isTransitionInProgress.value = false
         }
     }
 
