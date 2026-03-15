@@ -3,11 +3,13 @@
     <string name="navigation_item_home">Главная</string>
     <string name="navigation_item_history">История</string>
     <string name="top_bar_settings">Настройки</string>
-    <string name="last_3_asks">Последние три запроса:</string>
+    <string name="last_3_asks">Последние 3 запроса:</string>
     <string name="turn_on_thron">Включить трон</string>
+    <string name="refresh_data">Обновить данные</string>
     <string name="turn_off_thron">Выключить трон</string>
     <string name="tron_starting">Трон подслушивает..</string>
     <string name="mic_permission_required">Предоставьте разрешение на использование микрофона</string>
+    <string name="notification_permission_required">Предоставьте разрешение на рассылку уведомлений</string>
     <string name="version_1_0_1">Версия 1.0.1</string>
     <string name="dont_authorized">Ещё не зарегистрированы?</string>
     <string name="forgot_password">Забыли пароль?</string>
@@ -20,6 +22,7 @@
     <string name="delete_ask">Удалить запрос</string>
     <string name="about_user_login">Логин:</string>
     <string name="about_user_nickname">Никнейм:</string>
+    <string name="save">Сохранить</string>
     <string name="asks">Запросы</string>
     <string name="login_types">Почта</string>
     <string name="password">Пароль</string>
@@ -34,4 +37,5 @@
     <string name="account_creating_date">Дата создания аккаунта:</string>
     <string name="count_of_asks">Общее число запросов:</string>
     <string name="speech_detector_is_active">Распознавание речи активно</string>
+    <string name="enter_nickname">Введите никнейм:</string>
 </resources>

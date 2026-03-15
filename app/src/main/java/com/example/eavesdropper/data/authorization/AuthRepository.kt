@@ -9,4 +9,5 @@ interface AuthRepository {
     fun signOut()
     fun isAuthorized(): Boolean
     fun getUserInfo(): UserInfo?
+    suspend fun addNickname(nickname: String)
 }

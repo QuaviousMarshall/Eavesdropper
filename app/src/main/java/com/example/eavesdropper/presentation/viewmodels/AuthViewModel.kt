@@ -19,8 +19,12 @@ class AuthViewModel @Inject constructor(
     private val _state = MutableStateFlow<AuthState>(AuthState.Loading)
     val state: StateFlow<AuthState> = _state
 
+    private val _userInfo = MutableStateFlow<UserInfo?>(null)
+    val userInfo: StateFlow<UserInfo?> = _userInfo
+
     init {
         checkAuth()
+        loadUserInfo()
     }
 
     suspend fun resetPassword(email: String): Result<Unit> {
@@ -39,7 +43,10 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = AuthState.Loading
             repository.signIn(email, password)
-                .onSuccess { _state.value = AuthState.Authorized }
+                .onSuccess {
+                    _state.value = AuthState.Authorized
+                    _userInfo.value = repository.getUserInfo()
+                }
                 .onFailure { _state.value = AuthState.Error("Неверный логин или пароль") }
         }
     }
@@ -61,7 +68,14 @@ class AuthViewModel @Inject constructor(
         _state.value = AuthState.Unauthorized
     }
 
+    private fun loadUserInfo() {
+        _userInfo.value = repository.getUserInfo()
+    }
 
-    fun getUserInfo(): UserInfo? =
-        repository.getUserInfo()
+    fun addNickname(nickname: String) {
+        viewModelScope.launch {
+            repository.addNickname(nickname)
+            loadUserInfo()
+        }
+    }
 }

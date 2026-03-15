@@ -2,6 +2,7 @@ package com.example.eavesdropper.data.authorization
 
 import com.example.eavesdropper.domain.entity.UserInfo
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -43,7 +44,19 @@ class AuthRepositoryImpl @Inject constructor(
 
         return UserInfo(
             email = user.email.orEmpty(),
-            createdAt = createdAt
+            createdAt = createdAt,
+            nickname = user.displayName
         )
+    }
+
+    override suspend fun addNickname(nickname: String) {
+        val user = auth.currentUser ?: return
+
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setDisplayName(nickname)
+            .build()
+
+        user.updateProfile(profileUpdates).await()
+        user.reload().await()
     }
 }

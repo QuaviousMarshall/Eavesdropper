@@ -74,12 +74,12 @@ fun MainCard(
 
         AskMainIcon(isActive = isTronEnabled)
 
-        Last3AsksList(last3Asks)
-
         TronToggleButton(
             isEnabled = isTronEnabled,
             viewModel = viewModel
         )
+
+        Last3AsksList(last3Asks)
 
         Spacer(Modifier.height(32.dp))
     }

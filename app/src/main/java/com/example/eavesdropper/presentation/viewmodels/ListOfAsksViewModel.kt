@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.domain.repository.TronRepository
+import com.example.eavesdropper.domain.usecases.TronUseCases
+import com.example.eavesdropper.presentation.di.SessionManager
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,16 +16,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListOfAsksViewModel @Inject constructor(
-    private val repository: TronRepository
+    private val sessionManager: SessionManager,
+    private val useCases: TronUseCases
 ) : ViewModel() {
 
-    private val userId: String
-        get() = FirebaseAuth.getInstance().currentUser?.uid
-            ?: throw IllegalStateException("User not authorized")
-
-
     val asks: StateFlow<List<Ask>> =
-        repository.getAsks(userId)
+        useCases.getAsksUseCase(sessionManager.currentUserId)
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -32,7 +30,7 @@ class ListOfAsksViewModel @Inject constructor(
 
     fun delete(ask: Ask) {
         viewModelScope.launch {
-            repository.deleteAsk(ask.id)
+            useCases.deleteAskUseCase(ask.id)
         }
     }
 }

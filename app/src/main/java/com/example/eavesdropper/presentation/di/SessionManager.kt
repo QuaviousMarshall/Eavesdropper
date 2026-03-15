@@ -9,6 +9,6 @@ class SessionManager @Inject constructor() {
 
     private val auth = FirebaseAuth.getInstance()
 
-    val currentUserId: String?
-        get() = auth.currentUser?.uid
+    val currentUserId: String
+        get() = auth.currentUser?.uid ?: throw IllegalStateException("User not authorized")
 }

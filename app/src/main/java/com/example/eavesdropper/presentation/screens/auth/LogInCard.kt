@@ -1,6 +1,7 @@
 package com.example.eavesdropper.presentation.screens.auth
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
+import com.example.eavesdropper.presentation.ui.theme.Black
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 import com.example.eavesdropper.presentation.ui.theme.myColor
 
@@ -82,6 +84,7 @@ fun LoginPasswordBox(
         modifier = Modifier
             .padding(bottom = 1.dp, start = 32.dp, end = 32.dp, top = 1.dp)
             .clip(shape = RoundedCornerShape(16.dp))
+            .border(1.dp, Black)
             .background(color = MaterialTheme.colorScheme.onPrimary),
         contentAlignment = Alignment.Center
     ) {
