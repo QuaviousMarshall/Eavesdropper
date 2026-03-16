@@ -1,5 +1,6 @@
 package com.example.eavesdropper.presentation.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eavesdropper.data.authorization.AuthRepository
@@ -76,6 +77,13 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             repository.addNickname(nickname)
             loadUserInfo()
+        }
+    }
+
+    fun uploadAvatar(uri: Uri) {
+        viewModelScope.launch {
+            repository.uploadAvatar(uri)
+            _userInfo.value = repository.getUserInfo()
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.eavesdropper.data.authorization
 
+import android.net.Uri
 import com.example.eavesdropper.domain.entity.UserInfo
 
 interface AuthRepository {
@@ -10,4 +11,5 @@ interface AuthRepository {
     fun isAuthorized(): Boolean
     fun getUserInfo(): UserInfo?
     suspend fun addNickname(nickname: String)
+    suspend fun uploadAvatar(uri: Uri)
 }
