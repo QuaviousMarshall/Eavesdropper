@@ -10,5 +10,3 @@ interface OpenAiApi {
         @Body body: OpenAiResponseRequest
     ): OpenAiResponse
 }
-
-

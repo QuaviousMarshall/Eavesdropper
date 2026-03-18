@@ -21,6 +21,3 @@ data class ContentItem(
     val type: String?,
     val text: String?
 )
-
-
-

@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.eavesdropper.presentation.navigation.AppNavGraph
 import com.example.eavesdropper.presentation.navigation.Screen
@@ -25,6 +26,7 @@ import com.example.eavesdropper.presentation.ui.components.BottomBar
 import com.example.eavesdropper.presentation.ui.components.ListTopBar
 import com.example.eavesdropper.presentation.ui.components.SettingsTopBar
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
+import com.example.eavesdropper.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +37,7 @@ fun MainScreen(authViewModel: AuthViewModel) {
     val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val snackbarHostState = remember { SnackbarHostState() }
-
+    val viewModel: MainViewModel = hiltViewModel()
 
     Scaffold(
         modifier = Modifier
@@ -81,6 +83,7 @@ fun MainScreen(authViewModel: AuthViewModel) {
             navHostController = navigationState.navHostController,
             mainScreenContent = { MainCard(
                 paddingValues = it,
+                viewModel = viewModel,
             ) },
             listOfAsksScreenContent = { ListOfAsksCard(it) },
             aboutAppScreenContent = {
@@ -97,7 +100,8 @@ fun MainScreen(authViewModel: AuthViewModel) {
                     },
                     onLogoutClick = {
                         authViewModel.logout()
-                    }
+                    },
+                    viewModel = viewModel
                 )
             },
             aboutUserScreenContent = {

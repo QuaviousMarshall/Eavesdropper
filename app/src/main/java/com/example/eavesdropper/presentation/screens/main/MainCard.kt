@@ -60,10 +60,10 @@ import com.example.eavesdropper.service.VoiceRecognitionService
 @Composable
 fun MainCard(
     paddingValues: PaddingValues,
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel
 ) {
-
-    val last3Asks by viewModel.last3Asks.collectAsState()
+    val n by viewModel.n.collectAsState()
+    val lastAsks by viewModel.lastAsks.collectAsState()
     val isTronEnabled by viewModel.isTronEnabled.collectAsState()
 
     Column(
@@ -79,7 +79,7 @@ fun MainCard(
             viewModel = viewModel
         )
 
-        Last3AsksList(last3Asks)
+        LastAsksList(lastAsks, n)
 
         Spacer(Modifier.height(32.dp))
     }
@@ -87,11 +87,12 @@ fun MainCard(
 
 
 @Composable
-fun Last3AsksList(
-    last3AsksList: List<Ask>
+fun LastAsksList(
+    lastAsksList: List<Ask>,
+    n: Int
 ) {
 
-    if (last3AsksList.isEmpty()) return
+    if (lastAsksList.isEmpty()) return
 
     Box(
         modifier = Modifier
@@ -105,7 +106,7 @@ fun Last3AsksList(
 
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.last_3_asks),
+                text = String.format(stringResource(R.string.last_3_asks), n),
                 fontSize = 18.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.SemiBold,
@@ -115,7 +116,7 @@ fun Last3AsksList(
 
             Spacer(Modifier.height(16.dp))
 
-            last3AsksList.forEach { ask ->
+            lastAsksList.forEach { ask ->
                 AskRow(ask)
                 Spacer(Modifier.height(8.dp))
             }

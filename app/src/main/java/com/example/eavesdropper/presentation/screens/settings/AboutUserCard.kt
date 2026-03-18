@@ -72,7 +72,7 @@ fun AboutUserCard(
     val userInfo by viewModel.userInfo.collectAsState()
 
     var showNicknameDialog by remember { mutableStateOf(false) }
-    var nickname by rememberSaveable { mutableStateOf("") }
+    var nickname by remember { mutableStateOf("") }
     var avatarUri by remember { mutableStateOf<Uri?>(null) }
 
     val avatarLauncher = rememberLauncherForActivityResult(

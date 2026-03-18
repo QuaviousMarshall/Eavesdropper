@@ -3,8 +3,8 @@ package com.example.eavesdropper.data.repository
 import android.util.Log
 import com.example.eavesdropper.data.remote.OpenAiApi
 import com.example.eavesdropper.data.remote.OpenAiResponseRequest
+import jakarta.inject.Singleton
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 class OpenAiRepository @Inject constructor(
@@ -34,5 +34,3 @@ class OpenAiRepository @Inject constructor(
         }
     }
 }
-
-
