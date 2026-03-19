@@ -1,18 +1,19 @@
 package com.example.eavesdropper.data.repository
 
 import android.util.Log
-import com.example.eavesdropper.data.remote.GigaChatApi
-import com.example.eavesdropper.data.remote.GigaChatRequest
-import com.example.eavesdropper.data.remote.Message
+import com.example.eavesdropper.data.remote.api.GigaChatApi
+import com.example.eavesdropper.data.remote.model.gigachat.GigaChatRequest
+import com.example.eavesdropper.data.remote.model.gigachat.Message
+import com.example.eavesdropper.domain.repository.AiRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class GigaChatRepository @Inject constructor(
     private val api: GigaChatApi
-) {
+): AiRepository {
 
-    suspend fun getShortAnswer(question: String): String {
+    override suspend fun getShortAnswer(question: String): String {
         return try {
 
             val prompt = """

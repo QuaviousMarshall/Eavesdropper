@@ -2,8 +2,8 @@ package com.example.eavesdropper.presentation.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.eavesdropper.data.database.AppDatabase
-import com.example.eavesdropper.data.database.AskDao
+import com.example.eavesdropper.data.local.db.AppDatabase
+import com.example.eavesdropper.data.local.db.AskDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

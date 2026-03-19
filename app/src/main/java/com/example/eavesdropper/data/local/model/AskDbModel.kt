@@ -1,4 +1,4 @@
-package com.example.eavesdropper.data.database
+package com.example.eavesdropper.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

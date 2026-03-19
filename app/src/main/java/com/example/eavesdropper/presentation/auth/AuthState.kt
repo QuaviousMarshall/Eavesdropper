@@ -1,4 +1,4 @@
-package com.example.eavesdropper.data.authorization
+package com.example.eavesdropper.presentation.auth
 
 sealed interface AuthState {
     object Loading : AuthState

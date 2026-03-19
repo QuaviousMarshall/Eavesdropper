@@ -4,10 +4,11 @@ import android.Manifest
 import android.content.Context
 import androidx.annotation.RequiresPermission
 import com.example.eavesdropper.data.detector.AndroidSpeechRecognizer
-import com.example.eavesdropper.data.detector.QuestionDetector
+import com.example.eavesdropper.domain.detector.QuestionDetector
 import com.example.eavesdropper.data.detector.QuestionDetectorImpl
 import com.example.eavesdropper.data.detector.SpeechRecognizerController
 import com.example.eavesdropper.data.detector.SystemSoundController
+import com.example.eavesdropper.data.factory.AiRepositoryFactory
 import com.example.eavesdropper.data.repository.GigaChatRepository
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.domain.repository.TronRepository
@@ -30,7 +31,7 @@ object SpeechModule {
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun provideQuestionDetector(
         repository: TronRepository,
-        gigaChatRepository: GigaChatRepository,
+        factory: AiRepositoryFactory,
         notificationHelper: NotificationHelper,
         sessionManager: SessionManager
     ): QuestionDetector =
@@ -38,9 +39,9 @@ object SpeechModule {
             CoroutineScope(Dispatchers.IO).launch {
 
                 val userId = sessionManager.currentUserId
-                    ?: return@launch
 
-                val answer = gigaChatRepository.getShortAnswer(question)
+                val aiRepository = factory.getRepository()
+                val answer = aiRepository.getShortAnswer(question)
                 val ask = Ask(
                     question = question,
                     userId = userId,

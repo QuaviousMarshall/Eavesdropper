@@ -1,4 +1,4 @@
-package com.example.eavesdropper.data.preferences
+package com.example.eavesdropper.data.local.preferences
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore

@@ -1,9 +1,10 @@
-package com.example.eavesdropper.data.database
+package com.example.eavesdropper.data.local.db
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.eavesdropper.data.local.model.AskDbModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

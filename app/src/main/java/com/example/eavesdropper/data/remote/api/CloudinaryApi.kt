@@ -1,5 +1,6 @@
-package com.example.eavesdropper.data.remote
+package com.example.eavesdropper.data.remote.api
 
+import com.example.eavesdropper.data.remote.model.CloudinaryUploadResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Multipart

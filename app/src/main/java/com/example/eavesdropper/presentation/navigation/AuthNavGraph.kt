@@ -10,7 +10,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.eavesdropper.data.authorization.AuthState
+import com.example.eavesdropper.presentation.auth.AuthState
 import com.example.eavesdropper.presentation.screens.auth.ForgotPasswordCard
 import com.example.eavesdropper.presentation.screens.auth.LogInCard
 import com.example.eavesdropper.presentation.screens.auth.RegistrationCard

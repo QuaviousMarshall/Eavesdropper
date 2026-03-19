@@ -1,5 +1,6 @@
 package com.example.eavesdropper.data.detector
 
+import com.example.eavesdropper.domain.detector.QuestionDetector
 import javax.inject.Inject
 
 class QuestionDetectorImpl @Inject constructor(

@@ -3,8 +3,8 @@ package com.example.eavesdropper.presentation.viewmodels
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.eavesdropper.data.authorization.AuthRepository
-import com.example.eavesdropper.data.authorization.AuthState
+import com.example.eavesdropper.domain.repository.AuthRepository
+import com.example.eavesdropper.presentation.auth.AuthState
 import com.example.eavesdropper.domain.entity.UserInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

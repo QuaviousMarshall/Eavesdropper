@@ -1,4 +1,4 @@
-package com.example.eavesdropper.data.authorization
+package com.example.eavesdropper.domain.repository
 
 import android.net.Uri
 import com.example.eavesdropper.domain.entity.UserInfo

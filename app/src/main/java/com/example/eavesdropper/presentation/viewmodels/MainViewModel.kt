@@ -3,7 +3,8 @@ package com.example.eavesdropper.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eavesdropper.data.detector.SpeechRecognizerController
-import com.example.eavesdropper.data.preferences.PreferencesRepository
+import com.example.eavesdropper.data.local.preferences.PreferencesRepository
+import com.example.eavesdropper.data.remote.model.AiModel
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.domain.usecases.TronUseCases
 import com.example.eavesdropper.presentation.di.SessionManager
@@ -13,7 +14,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -67,6 +67,20 @@ class MainViewModel @Inject constructor(
         speechController.stop()
         _isTronEnabled.value = false
     }
+
+    fun setAiModel(model: AiModel) {
+        viewModelScope.launch {
+            preferencesRepository.setSelectedModel(userId, model)
+        }
+    }
+
+    val aiModel: StateFlow<AiModel> =
+        preferencesRepository.getSelectedModelFlow(userId)
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                AiModel.GIGACHAT
+            )
 
     val lastAsks: StateFlow<List<Ask>> =
         combine(

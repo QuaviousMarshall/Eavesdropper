@@ -1,6 +1,6 @@
 package com.example.eavesdropper.presentation.di
 
-import com.example.eavesdropper.data.authorization.AuthRepository
+import com.example.eavesdropper.domain.repository.AuthRepository
 import com.example.eavesdropper.data.authorization.AuthRepositoryImpl
 import dagger.Binds
 import dagger.Module

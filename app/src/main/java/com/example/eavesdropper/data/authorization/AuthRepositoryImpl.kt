@@ -2,10 +2,13 @@ package com.example.eavesdropper.data.authorization
 
 import android.content.Context
 import android.net.Uri
-import com.example.eavesdropper.data.remote.CloudinaryApi
+import androidx.core.net.toUri
+import com.example.eavesdropper.data.remote.api.CloudinaryApi
 import com.example.eavesdropper.domain.entity.UserInfo
+import com.example.eavesdropper.domain.repository.AuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -13,8 +16,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 import javax.inject.Singleton
-import androidx.core.net.toUri
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(

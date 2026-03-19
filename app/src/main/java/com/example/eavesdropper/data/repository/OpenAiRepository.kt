@@ -1,17 +1,18 @@
 package com.example.eavesdropper.data.repository
 
 import android.util.Log
-import com.example.eavesdropper.data.remote.OpenAiApi
-import com.example.eavesdropper.data.remote.OpenAiResponseRequest
+import com.example.eavesdropper.data.remote.api.OpenAiApi
+import com.example.eavesdropper.data.remote.model.openai.OpenAiResponseRequest
+import com.example.eavesdropper.domain.repository.AiRepository
 import jakarta.inject.Singleton
 import javax.inject.Inject
 
 @Singleton
 class OpenAiRepository @Inject constructor(
     private val api: OpenAiApi
-) {
+): AiRepository {
 
-    suspend fun getShortAnswer(question: String): String {
+    override suspend fun getShortAnswer(question: String): String {
         return try {
 
             val request = OpenAiResponseRequest(

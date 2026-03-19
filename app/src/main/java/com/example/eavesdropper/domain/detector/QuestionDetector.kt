@@ -1,4 +1,4 @@
-package com.example.eavesdropper.data.detector
+package com.example.eavesdropper.domain.detector
 
 interface QuestionDetector {
     fun onText(text: String)

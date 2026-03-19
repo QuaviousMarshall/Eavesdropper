@@ -1,6 +1,6 @@
 package com.example.eavesdropper.data.mapper
 
-import com.example.eavesdropper.data.database.AskDbModel
+import com.example.eavesdropper.data.local.model.AskDbModel
 import com.example.eavesdropper.domain.entity.Ask
 import javax.inject.Inject
 

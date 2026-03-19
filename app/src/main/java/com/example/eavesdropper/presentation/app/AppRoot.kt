@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.eavesdropper.data.authorization.AuthState
+import com.example.eavesdropper.presentation.auth.AuthState
 import com.example.eavesdropper.presentation.navigation.AuthNavGraph
 import com.example.eavesdropper.presentation.screens.main.MainScreen
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel

@@ -1,7 +1,6 @@
 package com.example.eavesdropper.data.repository
 
-import com.example.eavesdropper.data.database.AskDao
-import com.example.eavesdropper.data.database.AskDbModel
+import com.example.eavesdropper.data.local.db.AskDao
 import com.example.eavesdropper.data.mapper.AskMapper
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.domain.repository.TronRepository

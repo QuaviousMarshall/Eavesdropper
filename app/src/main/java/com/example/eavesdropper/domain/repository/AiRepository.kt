@@ -1,4 +1,4 @@
-package com.example.eavesdropper.data.repository
+package com.example.eavesdropper.domain.repository
 
 interface AiRepository {
     suspend fun getShortAnswer(question: String): String

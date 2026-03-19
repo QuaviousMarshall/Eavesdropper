@@ -27,6 +27,7 @@ import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.eavesdropper.R
+import com.example.eavesdropper.data.remote.model.AiModel
 import com.example.eavesdropper.presentation.screens.auth.VersionText
 import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.Black
@@ -59,9 +61,26 @@ fun SettingsCard(
     onLogoutClick: () -> Unit
 ) {
     var onLastAsksClicked by remember { mutableStateOf(false) }
-    var onChooseAiModelClicked by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
     var selectedOptionForAsks by remember { mutableIntStateOf(viewModel.n.value) }
-    var selectedOptionForAiModels by remember { mutableIntStateOf(viewModel.n.value) } //!!1!
+
+    val currentModel by viewModel.aiModel.collectAsState()
+
+    var selectedModel by remember(currentModel) {
+        mutableStateOf(currentModel)
+    }
+
+    if (showDialog) {
+        ShowAiModelToChooseAlertDialog(
+            selectedModel = selectedModel,
+            onOptionSelected = { selectedModel = it },
+            onOpenWindowToChooseClicked = { showDialog = false },
+            onSaveClick = {
+                viewModel.setAiModel(it)
+                showDialog = false
+            }
+        )
+    }
 
     if (onLastAsksClicked) {
 
@@ -74,19 +93,6 @@ fun SettingsCard(
         ) {
             viewModel.setNewDigitOfLastAsks(it)
             onLastAsksClicked = false
-        }
-    }
-
-    if (onChooseAiModelClicked) {
-
-        ShowAiModelToChooseAlertDialog(
-            onOpenWindowToChooseClicked = { onChooseAiModelClicked = false },
-            selectedOption = selectedOptionForAiModels,
-            onOptionSelected = {
-                selectedOptionForAiModels = it
-            }
-        ) {
-            //TODO
         }
     }
 
@@ -113,7 +119,7 @@ fun SettingsCard(
             ProfileActionButton(
                 R.string.choice_of_ai_model,
                 onProfileButtonClick = {
-                    onChooseAiModelClicked = true
+                    showDialog = true
                 }
             )
         }
@@ -137,12 +143,15 @@ fun SettingsCard(
 @Composable
 fun ShowAiModelToChooseAlertDialog(
     onOpenWindowToChooseClicked: () -> Unit,
-    selectedOption: Int,
-    onOptionSelected: (Int) -> Unit,
-    onSaveClick: (Int) -> Unit
+    selectedModel: AiModel,
+    onOptionSelected: (AiModel) -> Unit,
+    onSaveClick: (AiModel) -> Unit
 
 ) {
-    val radioOptions = listOf(stringResource(R.string.gigachat), stringResource(R.string.openai))
+    val options = listOf(
+        AiModel.GIGACHAT to stringResource(R.string.gigachat),
+        AiModel.OPENAI to stringResource(R.string.openai)
+    )
 
     AlertDialog(
         onDismissRequest = onOpenWindowToChooseClicked,
@@ -153,14 +162,14 @@ fun ShowAiModelToChooseAlertDialog(
 
         text = {
             Column(Modifier.selectableGroup()) {
-                radioOptions.forEach { option ->
+                options.forEach { (model, title) ->
                     Row(
                         Modifier
                             .fillMaxWidth()
                             .height(56.dp)
                             .selectable(
-                                selected = radioOptions.indexOf(option) == (selectedOption - 1),
-                                onClick = { onOptionSelected(radioOptions.indexOf(option)) },
+                                selected = model == selectedModel,
+                                onClick = { onOptionSelected(model) },
                                 role = Role.RadioButton
                             ),
                         verticalAlignment = Alignment.CenterVertically
@@ -168,11 +177,11 @@ fun ShowAiModelToChooseAlertDialog(
 
                         RadioButton(
                             colors = RadioButtonColors(DeepSkyBlue, Black, Aqua, Black),
-                            selected = radioOptions.indexOf(option) == (selectedOption - 1),
-                            onClick = { onOptionSelected(radioOptions.indexOf(option)) }
+                            selected = model == selectedModel,
+                            onClick = { onOptionSelected(model) },
                         )
                         Text(
-                            text = option,
+                            text = title,
                             modifier = Modifier.padding(start = 16.dp),
                         )
                     }
@@ -186,7 +195,7 @@ fun ShowAiModelToChooseAlertDialog(
                     .clip(shape = RoundedCornerShape(16.dp))
                     .background(aboutUserGetColor()),
                 onClick = {
-                    onSaveClick(selectedOption - 1)
+                    onSaveClick(selectedModel)
                 }
             ) {
                 Text(
