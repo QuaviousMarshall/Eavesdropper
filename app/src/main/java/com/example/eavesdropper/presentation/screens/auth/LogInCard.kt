@@ -223,7 +223,7 @@ fun VersionText() {
     ) {
         Text(
             modifier = Modifier.padding(start = 8.dp, end = 8.dp),
-            text = stringResource(R.string.version_1_0_1),
+            text = stringResource(R.string.version),
             fontSize = 10.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.Medium,

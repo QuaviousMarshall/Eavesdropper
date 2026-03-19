@@ -10,7 +10,8 @@
     <string name="tron_starting">Трон подслушивает..</string>
     <string name="mic_permission_required">Предоставьте разрешение на использование микрофона</string>
     <string name="notification_permission_required">Предоставьте разрешение на рассылку уведомлений</string>
-    <string name="version_1_0_1">Версия 1.0.1</string>
+    <string name="version">Версия 2.0.0</string>
+    <string name="history_of_asks">История запросов</string>
     <string name="dont_authorized">Ещё не зарегистрированы?</string>
     <string name="forgot_password">Забыли пароль?</string>
     <string name="send_code">Прислать код на почту</string>

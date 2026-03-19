@@ -61,7 +61,7 @@ fun ListTopBar(
         ),
         title = {
             Text(
-                text = stringResource(R.string.app_name),
+                text = stringResource(R.string.history_of_asks),
                 fontSize = 20.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.ExtraBold,

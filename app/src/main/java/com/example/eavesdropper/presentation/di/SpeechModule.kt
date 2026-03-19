@@ -38,7 +38,7 @@ object SpeechModule {
         QuestionDetectorImpl { question ->
             CoroutineScope(Dispatchers.IO).launch {
 
-                val userId = sessionManager.currentUserId
+                val userId = sessionManager.currentUserId.value!!
 
                 val aiRepository = factory.getRepository()
                 val answer = aiRepository.getShortAnswer(question)

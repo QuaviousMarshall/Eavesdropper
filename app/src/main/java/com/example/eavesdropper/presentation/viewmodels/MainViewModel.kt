@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,10 +28,14 @@ class MainViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
-    private val userId = sessionManager.currentUserId
+    val userId = sessionManager.currentUserId
 
     val n: StateFlow<Int> =
-        preferencesRepository.getLastAsksCount(userId)
+        sessionManager.currentUserId
+            .filterNotNull()
+            .flatMapLatest { userId ->
+                preferencesRepository.getLastAsksCount(userId)
+            }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5000),
@@ -38,6 +44,7 @@ class MainViewModel @Inject constructor(
 
     fun setNewDigitOfLastAsks(digit: Int) {
         viewModelScope.launch {
+            val userId = sessionManager.currentUserId.value ?: return@launch
             preferencesRepository.saveLastAsksCount(userId, digit)
         }
     }
@@ -70,12 +77,17 @@ class MainViewModel @Inject constructor(
 
     fun setAiModel(model: AiModel) {
         viewModelScope.launch {
+            val userId = sessionManager.currentUserId.value ?: return@launch
             preferencesRepository.setSelectedModel(userId, model)
         }
     }
 
     val aiModel: StateFlow<AiModel> =
-        preferencesRepository.getSelectedModelFlow(userId)
+        sessionManager.currentUserId
+            .filterNotNull()
+            .flatMapLatest { userId ->
+                preferencesRepository.getSelectedModelFlow(userId)
+            }
             .stateIn(
                 viewModelScope,
                 SharingStarted.WhileSubscribed(5000),
@@ -83,17 +95,22 @@ class MainViewModel @Inject constructor(
             )
 
     val lastAsks: StateFlow<List<Ask>> =
-        combine(
-            tronUseCases.getAsksUseCase(userId),
-            n
-        ) { asks, count ->
-            asks
-                .sortedByDescending { it.id }
-                .take(count)
-        }.stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
+        sessionManager.currentUserId
+            .filterNotNull()
+            .flatMapLatest { userId ->
+                combine(
+                    tronUseCases.getAsksUseCase(userId),
+                    n
+                ) { asks, count ->
+                    asks
+                        .sortedByDescending { it.id }
+                        .take(count)
+                }
+            }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                emptyList()
+            )
 }
 

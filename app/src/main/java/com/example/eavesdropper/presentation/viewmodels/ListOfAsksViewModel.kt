@@ -3,10 +3,8 @@ package com.example.eavesdropper.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eavesdropper.domain.entity.Ask
-import com.example.eavesdropper.domain.repository.TronRepository
 import com.example.eavesdropper.domain.usecases.TronUseCases
 import com.example.eavesdropper.presentation.di.SessionManager
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +19,7 @@ class ListOfAsksViewModel @Inject constructor(
 ) : ViewModel() {
 
     val asks: StateFlow<List<Ask>> =
-        useCases.getAsksUseCase(sessionManager.currentUserId)
+        useCases.getAsksUseCase(sessionManager.currentUserId.value!!)
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),

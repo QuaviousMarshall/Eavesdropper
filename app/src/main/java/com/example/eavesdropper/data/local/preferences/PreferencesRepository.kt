@@ -14,7 +14,6 @@ import javax.inject.Inject
 class PreferencesRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    private val AI_MODEL_KEY = stringPreferencesKey("ai_model")
 
     private fun aiModelKey(userId: String) =
         stringPreferencesKey("ai_model_$userId")

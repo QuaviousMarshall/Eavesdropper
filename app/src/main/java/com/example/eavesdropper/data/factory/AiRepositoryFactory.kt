@@ -17,7 +17,7 @@ class AiRepositoryFactory @Inject constructor(
 
     suspend fun getRepository(): AiRepository {
 
-        return when (preferences.getSelectedModel(sessionManager.currentUserId)) {
+        return when (preferences.getSelectedModel(sessionManager.currentUserId.value!!)) {
             AiModel.GIGACHAT -> gigaChat
             AiModel.OPENAI -> openAi
         }
