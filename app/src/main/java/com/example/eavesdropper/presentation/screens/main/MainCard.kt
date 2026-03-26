@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.provider.CalendarContract
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
@@ -21,15 +22,25 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,9 +60,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
+import com.example.eavesdropper.presentation.ui.theme.Aqua
+import com.example.eavesdropper.presentation.ui.theme.Black
+import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.ui.theme.Turquoise
+import com.example.eavesdropper.presentation.ui.theme.White
 import com.example.eavesdropper.presentation.ui.theme.myColor
 import com.example.eavesdropper.presentation.viewmodels.MainViewModel
 import com.example.eavesdropper.service.VoiceRecognitionService
@@ -79,9 +94,12 @@ fun MainCard(
             viewModel = viewModel
         )
 
+        Spacer(Modifier.height(16.dp))
+
         LastAsksList(lastAsks, n)
 
         Spacer(Modifier.height(32.dp))
+
     }
 }
 
@@ -94,12 +112,16 @@ fun LastAsksList(
 
     if (lastAsksList.isEmpty()) return
 
-    Box(
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp
+        ),
+        colors = CardDefaults.cardColors(
+            contentColor = myColor().copy(alpha = 0.6f),
+            containerColor = Turquoise
+        ),
         modifier = Modifier
-            .padding(16.dp)
-            .clip(shape = RoundedCornerShape(16.dp))
-            .background(myColor()),
-        contentAlignment = Alignment.Center
+            .padding(8.dp),
     ) {
         Column {
             Spacer(Modifier.height(8.dp))
@@ -128,8 +150,8 @@ fun LastAsksList(
 fun AskMainIcon(isActive: Boolean) {
     val transition = rememberInfiniteTransition(label = "tron")
     val scale by transition.animateFloat(
-        initialValue = 0.95f,
-        targetValue = if (isActive) 1.1f else 1f,
+        initialValue = 1f,
+        targetValue = if (isActive) 0.7f else 1f,
         animationSpec = infiniteRepeatable(
             animation = tween(2000),
             repeatMode = RepeatMode.Reverse
@@ -137,7 +159,7 @@ fun AskMainIcon(isActive: Boolean) {
         label = "scale"
     )
 
-    val tint = if (isActive) myColor() else Color.Gray
+    val tint = if (isActive) myColor() else DeepSkyBlue
 
     Box(
         modifier = Modifier.graphicsLayer(
@@ -188,28 +210,16 @@ fun TronToggleButton(
         }
     )
 
-    val containerColor =
-        when {
-            isEnabled -> myColor()
-            else -> Color.Gray
-        }
-
-    val text =
-        when {
-            isEnabled -> stringResource(R.string.turn_off_thron)
-            else -> stringResource(R.string.turn_on_thron)
-        }
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        ElevatedButton(
-            onClick = {
-
+        Switch(
+            checked = isEnabled,
+            onCheckedChange = {
                 if (!hasAudioPermission(context)) {
                     permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-                    return@ElevatedButton
+                    return@Switch
                 }
 
                 val intent = Intent(context, VoiceRecognitionService::class.java)
@@ -222,17 +232,19 @@ fun TronToggleButton(
 
                 viewModel.onTronButtonClick()
             },
-            colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = containerColor,
-                contentColor = Color.Black
-            )
-        ) {
-            Text(
-                text = text,
-                fontFamily = FontFamily.Serif,
-                fontWeight = FontWeight.Medium
-            )
-        }
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = myColor(),
+                checkedTrackColor = myColor().copy(alpha = 0.5f),
+                checkedIconColor = Black,
+                uncheckedIconColor = Black,
+                uncheckedThumbColor = Color.Gray,
+                uncheckedTrackColor = Color.LightGray
+            ),
+            modifier = Modifier.fillMaxSize(),
+            thumbContent = {
+                Icon( imageVector = Icons.Default.Mic, contentDescription = null )
+            }
+        )
     }
 }
 
@@ -244,19 +256,19 @@ private fun hasAudioPermission(context: Context): Boolean {
 }
 
 
-
 @Composable
 fun AskRow(ask: Ask) {
-    Column(
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp
+        ),
+        colors = CardDefaults.cardColors(containerColor = myColor()),
         modifier = Modifier
             .padding(horizontal = 8.dp)
-            .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .background(Color.White)
-            .padding(horizontal = 4.dp)
     ) {
         Text(
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier.padding(8.dp),
             text = "${ask.question}?",
             fontSize = 16.sp,
             fontFamily = FontFamily.Serif,
@@ -265,7 +277,7 @@ fun AskRow(ask: Ask) {
         )
 
         Text(
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier.padding(8.dp),
             text = ": ${ask.answer}",
             fontSize = 14.sp,
             fontFamily = FontFamily.Serif,

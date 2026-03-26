@@ -57,6 +57,7 @@ class AuthViewModel @Inject constructor(
             _state.value = AuthState.Loading
             repository.signUp(email, password)
                 .onSuccess { _state.value = AuthState.Authorized }
+                .onFailure { _state.value = AuthState.Error("Неверный ввод данных") }
         }
     }
 

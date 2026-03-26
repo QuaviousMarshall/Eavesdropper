@@ -49,6 +49,7 @@ import com.example.eavesdropper.presentation.screens.auth.VersionText
 import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.Black
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.ui.theme.logOutColor
 import com.example.eavesdropper.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -132,7 +133,8 @@ fun SettingsCard(
         ProfileRow {
             ProfileActionButton(
                 R.string.log_out_button,
-                onLogoutClick
+                onLogoutClick,
+                color = logOutColor()
             )
         }
         Spacer(Modifier.weight(1f))
@@ -278,13 +280,14 @@ fun ShowCountOfAsksAlertDialog(
 fun ProfileActionButton(
     @StringRes textRes: Int,
     onProfileButtonClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    color: Color = settingsGetColor()
 ) {
     ElevatedButton(
         modifier = modifier.fillMaxWidth(),
         onClick = onProfileButtonClick,
         colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = settingsGetColor(),
+            containerColor = color,
             contentColor = Color.Black,
             disabledContainerColor = Color.Gray,
             disabledContentColor = Color.Black

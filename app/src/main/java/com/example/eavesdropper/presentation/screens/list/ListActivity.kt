@@ -39,9 +39,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
+import com.example.eavesdropper.presentation.screens.main.AskRow
 import com.example.eavesdropper.presentation.viewmodels.ListOfAsksViewModel
 import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
+import com.example.eavesdropper.presentation.ui.theme.myColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +86,7 @@ fun ListOfAsksCard(
                             .padding(16.dp)
                             .fillMaxSize()
                             .clip(shape = RoundedCornerShape(20.dp))
-                            .background(listOfAsksGetColor()),
+                            .background(myColor()),
                         contentAlignment = Alignment.CenterEnd
                     ) {
                         Text(
@@ -98,77 +100,8 @@ fun ListOfAsksCard(
                     }
                 }
             ) {
-                Ask(ask = ask)
+                AskRow(ask = ask)
             }
         }
     }
-}
-
-
-@Composable
-private fun Ask(
-    ask: Ask
-) {
-    Box(
-        modifier = Modifier
-            .padding(8.dp)
-            .clip(shape = RoundedCornerShape(20.dp))
-            .background(listOfAsksGetColor())
-            .padding(8.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    modifier = Modifier.padding(
-                        start = 4.dp,
-                        top = 2.dp,
-                        end = 4.dp,
-                        bottom = 1.dp
-                    ),
-                    text = ask.question + "?",
-                    fontSize = 16.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.W600,
-                    color = Color.Black
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    modifier = Modifier.padding(
-                        start = 4.dp,
-                        top = 1.dp,
-                        end = 4.dp,
-                        bottom = 2.dp
-                    ),
-                    text = ": " + ask.answer,
-                    fontSize = 14.sp,
-                    fontFamily = FontFamily.Serif,
-                    fontWeight = FontWeight.W200,
-                    color = Color.Black
-                )
-            }
-
-        }
-    }
-}
-
-@Composable
-fun listOfAsksGetColor(): Color {
-    val transition = rememberInfiniteTransition()
-    val color by transition.animateColor(
-        initialValue = Aqua,
-        targetValue = DeepSkyBlue,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-    return color
 }

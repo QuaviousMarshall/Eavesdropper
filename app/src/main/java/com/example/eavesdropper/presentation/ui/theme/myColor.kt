@@ -22,3 +22,17 @@ fun myColor(): Color {
     )
     return color
 }
+
+@Composable
+fun logOutColor(): Color {
+    val transition = rememberInfiniteTransition()
+    val color by transition.animateColor(
+        initialValue = IndianRed,
+        targetValue = Color.Red,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+    return color
+}
