@@ -4,6 +4,7 @@ import com.example.eavesdropper.domain.repository.TronRepository
 import com.example.eavesdropper.domain.usecases.AddAskUseCase
 import com.example.eavesdropper.domain.usecases.DeleteAskUseCase
 import com.example.eavesdropper.domain.usecases.GetAsksUseCase
+import com.example.eavesdropper.domain.usecases.GetDetailedAnswerUseCase
 import com.example.eavesdropper.domain.usecases.TronUseCases
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,7 @@ object UseCaseModule {
             GetAsksUseCase(repository),
             DeleteAskUseCase(repository),
             AddAskUseCase(repository),
+            GetDetailedAnswerUseCase(repository)
         )
     }
 }

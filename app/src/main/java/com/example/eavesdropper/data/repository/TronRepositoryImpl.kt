@@ -27,4 +27,8 @@ class TronRepositoryImpl @Inject constructor(
     override suspend fun deleteAsk(id: Int) {
         askDao.deleteAsk(id)
     }
+
+    override suspend fun updateAnswer(id: Int, answer: String) {
+        askDao.updateAnswer(id, answer)
+    }
 }

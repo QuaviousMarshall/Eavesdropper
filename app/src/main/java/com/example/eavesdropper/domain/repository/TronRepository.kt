@@ -11,4 +11,5 @@ interface TronRepository {
 
     fun getAsks(userId: String): Flow<List<Ask>>
 
+    suspend fun updateAnswer(id: Int, answer: String)
 }

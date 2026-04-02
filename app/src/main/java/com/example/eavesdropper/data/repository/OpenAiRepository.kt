@@ -34,4 +34,27 @@ class OpenAiRepository @Inject constructor(
             "Ошибка сети"
         }
     }
+
+    override suspend fun getFullAnswer(question: String): String {
+        return try {
+
+            val request = OpenAiResponseRequest(
+                input = "Отвечай подробно, но ёмко (максимум 60 слов). $question"
+            )
+
+            val response = api.createResponse(request)
+
+            response.output
+                ?.firstOrNull {it.type == "message"}
+                ?.content
+                ?.firstOrNull { it.type == "output_text" }
+                ?.text
+                ?.trim()
+                ?: "Нет ответа"
+
+        } catch (e: Exception) {
+            Log.d("OpenAI", e.toString())
+            "Ошибка сети"
+        }
+    }
 }

@@ -48,6 +48,42 @@ class GigaChatRepository @Inject constructor(
             "Ошибка сети"
         }
     }
+
+    override suspend fun getFullAnswer(question: String): String {
+        return try {
+
+            val prompt = """
+            Ты — AI ассистент мобильного приложения.
+            Отвечай подробно, но ёмко. (максимум 60 слов).
+
+            Вопрос пользователя:
+            $question
+        """.trimIndent()
+
+            val request = GigaChatRequest(
+                model = "GigaChat",
+                messages = listOf(
+                    Message(
+                        role = "user",
+                        content = prompt
+                    )
+                )
+            )
+
+            val response = api.createChatCompletion(request)
+
+            return response
+                .choices
+                .firstOrNull()
+                ?.message
+                ?.content
+                ?: "Не удалось получить ответ"
+
+        } catch (e: Exception) {
+            Log.d("Gigachat", e.toString())
+            "Ошибка сети"
+        }
+    }
 }
 
 
