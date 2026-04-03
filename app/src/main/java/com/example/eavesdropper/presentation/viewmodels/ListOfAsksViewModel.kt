@@ -14,6 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -27,6 +29,13 @@ class ListOfAsksViewModel @Inject constructor(
     private val factory: AiRepositoryFactory
 ) : ViewModel() {
 
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery
+
+    fun onSearchQueryChange(query: String) {
+        _searchQuery.value = query
+    }
+
     private val loadingMap = mutableSetOf<Int>()
     val asks: StateFlow<List<Ask>> =
         useCases.getAsksUseCase(sessionManager.currentUserId.value!!)
@@ -34,6 +43,21 @@ class ListOfAsksViewModel @Inject constructor(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = emptyList()
+            )
+
+    val filteredAsks: StateFlow<List<Ask>> =
+        searchQuery
+            .debounce(300)
+            .combine(asks) { query, list ->
+                if (query.isBlank()) list
+                else list.filter {
+                    it.question.contains(query, ignoreCase = true)
+                }
+            }
+            .stateIn(
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                emptyList()
             )
 
     fun delete(ask: Ask) {

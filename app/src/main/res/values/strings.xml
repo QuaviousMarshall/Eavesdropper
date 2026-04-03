@@ -10,7 +10,7 @@
     <string name="tron_starting">Трон подслушивает..</string>
     <string name="mic_permission_required">Предоставьте разрешение на использование микрофона</string>
     <string name="notification_permission_required">Предоставьте разрешение на рассылку уведомлений</string>
-    <string name="version">Версия 2.1.0</string>
+    <string name="version">Версия 2.3.0</string>
     <string name="history_of_asks">История запросов</string>
     <string name="dont_authorized">Ещё не зарегистрированы?</string>
     <string name="forgot_password">Забыли пароль?</string>
@@ -27,6 +27,7 @@
     <string name="count_of_last_asks">Количество крайних запросов на главной</string>
     <string name="choice_of_ai_model">Выбор модели искусственного интеллекта</string>
     <string name="asks">Запросы</string>
+    <string name="find_ask">Найти запрос</string>
     <string name="login_types">Почта</string>
     <string name="password">Пароль</string>
     <string name="log_in">Войти</string>

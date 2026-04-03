@@ -43,6 +43,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
 import com.example.eavesdropper.data.remote.model.AiModel
 import com.example.eavesdropper.presentation.screens.auth.VersionText
@@ -218,7 +219,7 @@ fun ShowCountOfAsksAlertDialog(
     onOptionSelected: (Int) -> Unit,
     onSaveClick: (Int) -> Unit
 ) {
-    val radioOptions = listOf(1, 2, 3)
+    val radioOptions = listOf(2, 3, 4)
 
     AlertDialog(
         onDismissRequest = onLastAsksClicked,
@@ -280,11 +281,10 @@ fun ShowCountOfAsksAlertDialog(
 fun ProfileActionButton(
     @StringRes textRes: Int,
     onProfileButtonClick: () -> Unit,
-    modifier: Modifier = Modifier,
     color: Color = settingsGetColor()
 ) {
     ElevatedButton(
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         onClick = onProfileButtonClick,
         colors = ButtonDefaults.elevatedButtonColors(
             containerColor = color,
@@ -296,6 +296,7 @@ fun ProfileActionButton(
         Text(
             text = stringResource(textRes),
             fontFamily = FontFamily.Serif,
+            fontSize = 20.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium
         )

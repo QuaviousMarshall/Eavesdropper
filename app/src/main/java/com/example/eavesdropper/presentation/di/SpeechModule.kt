@@ -40,10 +40,14 @@ object SpeechModule {
 
                 val userId = sessionManager.currentUserId.value!!
 
+                val formattedQuestion = question.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase() else it.toString()
+                }
+
                 val aiRepository = factory.getRepository()
-                val answer = aiRepository.getShortAnswer(question)
+                val answer = aiRepository.getShortAnswer(formattedQuestion)
                 val ask = Ask(
-                    question = question,
+                    question = formattedQuestion,
                     userId = userId,
                     answer = answer,
                     createdAt = System.currentTimeMillis()
