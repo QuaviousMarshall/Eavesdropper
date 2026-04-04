@@ -14,6 +14,7 @@ import com.example.eavesdropper.presentation.auth.AuthState
 import com.example.eavesdropper.presentation.screens.auth.ForgotPasswordCard
 import com.example.eavesdropper.presentation.screens.auth.LogInCard
 import com.example.eavesdropper.presentation.screens.auth.RegistrationCard
+import com.example.eavesdropper.presentation.ui.theme.myColor
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
 import kotlinx.coroutines.launch
 
@@ -23,6 +24,7 @@ fun AuthNavGraph(viewModel: AuthViewModel) {
     val authState by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val color = myColor()
 
     LaunchedEffect(authState) {
         when (authState) {
@@ -56,7 +58,8 @@ fun AuthNavGraph(viewModel: AuthViewModel) {
                 onForgotPasswordClick = {
                     navController.navigate(Screen.ForgotPasswordScreen.route)
                 },
-                isLoading = authState is AuthState.Loading
+                isLoading = authState is AuthState.Loading,
+                color = color
             )
         }
 
@@ -67,12 +70,14 @@ fun AuthNavGraph(viewModel: AuthViewModel) {
                     navController.popBackStack()
                 },
                 isLoading = authState is AuthState.Loading,
+                color = color
             )
         }
 
         composable(Screen.ForgotPasswordScreen.route) {
             ForgotPasswordCard(
                 isLoading = authState is AuthState.Loading,
+                color = color,
                 onSendCodeClick = { email ->
                     scope.launch {
                         viewModel.resetPassword(email)

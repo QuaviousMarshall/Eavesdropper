@@ -1,7 +1,6 @@
 package com.example.eavesdropper.presentation.screens.auth
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,7 +45,6 @@ import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
 import com.example.eavesdropper.presentation.ui.theme.Black
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
-import com.example.eavesdropper.presentation.ui.theme.myColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +52,8 @@ fun LogInCard(
     onLoginClick: (String, String) -> Unit,
     onRegisterClick: () -> Unit,
     onForgotPasswordClick: () -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
+    color: Color
 ) {
     Scaffold(
         modifier = Modifier
@@ -69,7 +68,8 @@ fun LogInCard(
             LoginPasswordBox(
                 onLoginClick = onLoginClick,
                 onForgotPasswordClick = onForgotPasswordClick,
-                isLoading = isLoading
+                isLoading = isLoading,
+                color = color
             )
             Spacer(Modifier.weight(1f))
             DontHaveAccountYet {
@@ -86,6 +86,7 @@ fun LoginPasswordBox(
     onLoginClick: (String, String) -> Unit,
     onForgotPasswordClick: () -> Unit,
     isLoading: Boolean,
+    color: Color
 ) {
     Box(
         modifier = Modifier
@@ -168,7 +169,7 @@ fun LoginPasswordBox(
                 onForgotPasswordClick()
             }
             Spacer(modifier = Modifier.height(4.dp))
-            ElevatedButtonLogin(enabled = !isLoading) {
+            ElevatedButtonLogin(enabled = !isLoading, color = color) {
                 onLoginClick(loginText, passwordText)
             }
             Spacer(modifier = Modifier.height(4.dp))
@@ -249,6 +250,7 @@ fun VersionText() {
 @Composable
 fun ElevatedButtonLogin(
     enabled: Boolean,
+    color: Color,
     onClick: () -> Unit
 ) {
     Row(
@@ -261,7 +263,7 @@ fun ElevatedButtonLogin(
             enabled = enabled,
             onClick = { onClick() },
             colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = myColor(),
+                containerColor = color,
                 contentColor = Color.Black,
                 disabledContainerColor = Color.Gray,
                 disabledContentColor = Color.Black

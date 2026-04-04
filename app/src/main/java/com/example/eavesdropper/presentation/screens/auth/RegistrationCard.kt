@@ -1,13 +1,7 @@
 package com.example.eavesdropper.presentation.screens.auth
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -46,9 +40,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
-import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
-import com.example.eavesdropper.presentation.ui.theme.myColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +48,7 @@ fun RegistrationCard(
     onRegisterClick: (String, String) -> Unit,
     onLoginClick: () -> Unit,
     isLoading: Boolean,
+    color: Color
 ) {
     Scaffold(
         modifier = Modifier
@@ -72,6 +65,7 @@ fun RegistrationCard(
                 onRegisterClick = onRegisterClick,
                 onLoginClick = onLoginClick,
                 isLoading = isLoading,
+                color = color
             )
 
             Spacer(Modifier.weight(1f))
@@ -87,6 +81,7 @@ fun NickLoginPasswordBox(
     onRegisterClick: (String, String) -> Unit,
     onLoginClick: () -> Unit,
     isLoading: Boolean,
+    color: Color
 ) {
     Box(
         modifier = Modifier
@@ -143,7 +138,7 @@ fun NickLoginPasswordBox(
 
             Spacer(modifier = Modifier.height(4.dp))
 
-            ElevatedButtonRegin(enabled = !isLoading) {
+            ElevatedButtonRegin(enabled = !isLoading, color = color) {
                 onRegisterClick(loginText, passwordText)
             }
 
@@ -210,6 +205,7 @@ fun ProfileTextField(
 @Composable
 fun ElevatedButtonRegin(
     enabled: Boolean,
+    color: Color,
     onClick: () -> Unit
 ) {
     Row(
@@ -222,7 +218,7 @@ fun ElevatedButtonRegin(
             onClick = { onClick() },
             enabled = enabled,
             colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = myColor(),
+                containerColor = color,
                 contentColor = Color.Black,
                 disabledContainerColor = Color.Gray,
                 disabledContentColor = Color.Black

@@ -1,8 +1,6 @@
 package com.example.eavesdropper.presentation.screens.list
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
-import com.example.eavesdropper.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,13 +32,12 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,18 +48,18 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
-import com.example.eavesdropper.presentation.screens.main.AskRow
-import com.example.eavesdropper.presentation.ui.theme.myColor
 import com.example.eavesdropper.presentation.viewmodels.ListOfAsksViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListOfAsksCard(
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    viewModel: ListOfAsksViewModel,
+    onQueryChange: (String) -> Unit,
+    color: Color
 ) {
-    val viewModel: ListOfAsksViewModel = hiltViewModel()
     val asks by viewModel.filteredAsks.collectAsState()
     val query by viewModel.searchQuery.collectAsState()
 
@@ -76,7 +72,8 @@ fun ListOfAsksCard(
         item {
             AskSearchField(
                 query = query,
-                onQueryChange = viewModel::onSearchQueryChange
+                onQueryChange = onQueryChange,
+                color = color
             )
         }
 
@@ -114,7 +111,7 @@ fun ListOfAsksCard(
                             .padding(16.dp)
                             .fillMaxSize()
                             .clip(shape = RoundedCornerShape(20.dp))
-                            .background(myColor()),
+                            .background(color),
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -125,7 +122,7 @@ fun ListOfAsksCard(
                                     .padding(8.dp)
                                     .fillMaxHeight(),
                                 imageVector = Icons.Default.Info,
-                                contentDescription = "Delete",
+                                contentDescription = "Info",
                                 tint = Color.Green
                             )
 
@@ -141,7 +138,7 @@ fun ListOfAsksCard(
                     }
                 }
             ) {
-                AskRowInList(ask = ask)
+                AskRowInList(ask = ask, color = color)
             }
         }
     }
@@ -149,10 +146,10 @@ fun ListOfAsksCard(
 
 @Composable
 fun AskSearchField(
+    color: Color,
     query: String,
     onQueryChange: (String) -> Unit
 ) {
-    val color = myColor()
 
     OutlinedTextField(
         value = query,
@@ -198,21 +195,22 @@ fun AskSearchField(
 }
 
 @Composable
-fun AskRowInList(ask: Ask) {
+fun AskRowInList(ask: Ask, color: Color) {
 
-    var isExpanded by remember { mutableStateOf(false) }
+    var isExpanded by rememberSaveable(ask.id) {
+        mutableStateOf(false)
+    }
 
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
-        colors = CardDefaults.cardColors(containerColor = myColor()),
+        colors = CardDefaults.cardColors(containerColor = color),
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth()
             .defaultMinSize(minHeight = 86.dp)
             .clickable { isExpanded = !isExpanded }
-            .animateContentSize()
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Row(

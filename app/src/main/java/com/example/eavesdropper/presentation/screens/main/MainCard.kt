@@ -15,14 +15,12 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,7 +52,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -63,7 +60,6 @@ import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.presentation.ui.theme.Black
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 import com.example.eavesdropper.presentation.ui.theme.Turquoise
-import com.example.eavesdropper.presentation.ui.theme.myColor
 import com.example.eavesdropper.presentation.viewmodels.MainViewModel
 import com.example.eavesdropper.service.VoiceRecognitionService
 
@@ -71,7 +67,8 @@ import com.example.eavesdropper.service.VoiceRecognitionService
 @Composable
 fun MainCard(
     paddingValues: PaddingValues,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    color: Color
 ) {
     val n by viewModel.n.collectAsState()
     val lastAsks by viewModel.lastAsks.collectAsState()
@@ -83,16 +80,17 @@ fun MainCard(
             .verticalScroll(rememberScrollState())
     ) {
 
-        AskMainIcon(isActive = isTronEnabled)
+        AskMainIcon(isActive = isTronEnabled, color = color)
 
         TronToggleButton(
             isEnabled = isTronEnabled,
-            viewModel = viewModel
+            viewModel = viewModel,
+            color = color
         )
 
         Spacer(Modifier.height(16.dp))
 
-        LastAsksList(lastAsks, n)
+        LastAsksList(lastAsks, n, color)
 
         Spacer(Modifier.height(32.dp))
 
@@ -103,7 +101,8 @@ fun MainCard(
 @Composable
 fun LastAsksList(
     lastAsksList: List<Ask>,
-    n: Int
+    n: Int,
+    color: Color
 ) {
 
     if (lastAsksList.isEmpty()) return
@@ -113,7 +112,7 @@ fun LastAsksList(
             defaultElevation = 6.dp
         ),
         colors = CardDefaults.cardColors(
-            contentColor = myColor().copy(alpha = 0.6f),
+            contentColor = color.copy(alpha = 0.6f),
             containerColor = Turquoise
         ),
         modifier = Modifier
@@ -135,7 +134,7 @@ fun LastAsksList(
             Spacer(Modifier.height(16.dp))
 
             lastAsksList.forEach { ask ->
-                AskRow(ask)
+                AskRow(ask, color)
                 Spacer(Modifier.height(8.dp))
             }
         }
@@ -143,7 +142,7 @@ fun LastAsksList(
 }
 
 @Composable
-fun AskMainIcon(isActive: Boolean) {
+fun AskMainIcon(isActive: Boolean, color: Color) {
     val transition = rememberInfiniteTransition(label = "tron")
     val scale by transition.animateFloat(
         initialValue = 1f,
@@ -155,7 +154,7 @@ fun AskMainIcon(isActive: Boolean) {
         label = "scale"
     )
 
-    val tint = if (isActive) myColor() else DeepSkyBlue
+    val tint = if (isActive) color else DeepSkyBlue
 
     Box(
         modifier = Modifier.graphicsLayer(
@@ -189,7 +188,8 @@ fun rememberAudioPermissionLauncher(
 @Composable
 fun TronToggleButton(
     isEnabled: Boolean,
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    color: Color
 ) {
     val context = LocalContext.current
     val micPermissionText = stringResource(R.string.mic_permission_required)
@@ -229,8 +229,8 @@ fun TronToggleButton(
                 viewModel.onTronButtonClick()
             },
             colors = SwitchDefaults.colors(
-                checkedThumbColor = myColor(),
-                checkedTrackColor = myColor().copy(alpha = 0.5f),
+                checkedThumbColor = color,
+                checkedTrackColor = color.copy(alpha = 0.5f),
                 checkedIconColor = Black,
                 uncheckedIconColor = Black,
                 uncheckedThumbColor = Color.Gray,
@@ -253,7 +253,7 @@ private fun hasAudioPermission(context: Context): Boolean {
 
 
 @Composable
-fun AskRow(ask: Ask) {
+fun AskRow(ask: Ask, color: Color) {
 
     var isExpanded by remember { mutableStateOf(false) }
 
@@ -261,7 +261,7 @@ fun AskRow(ask: Ask) {
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
-        colors = CardDefaults.cardColors(containerColor = myColor()),
+        colors = CardDefaults.cardColors(containerColor = color),
         modifier = Modifier
             .padding(horizontal = 8.dp)
             .fillMaxWidth()

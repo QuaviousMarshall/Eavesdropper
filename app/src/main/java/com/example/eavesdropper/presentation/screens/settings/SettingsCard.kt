@@ -58,6 +58,7 @@ import com.example.eavesdropper.presentation.viewmodels.MainViewModel
 fun SettingsCard(
     paddingValues: PaddingValues,
     viewModel: MainViewModel,
+    color: Color,
     onProfileButtonClick: () -> Unit,
     onAppInfoButtonClick: () -> Unit,
     onLogoutClick: () -> Unit
@@ -80,7 +81,8 @@ fun SettingsCard(
             onSaveClick = {
                 viewModel.setAiModel(it)
                 showDialog = false
-            }
+            },
+            color = color
         )
     }
 
@@ -92,6 +94,7 @@ fun SettingsCard(
             onOptionSelected = {
                 selectedOptionForAsks = it
             },
+            color = color
         ) {
             viewModel.setNewDigitOfLastAsks(it)
             onLastAsksClicked = false
@@ -145,11 +148,11 @@ fun SettingsCard(
 
 @Composable
 fun ShowAiModelToChooseAlertDialog(
+    color: Color,
     onOpenWindowToChooseClicked: () -> Unit,
     selectedModel: AiModel,
     onOptionSelected: (AiModel) -> Unit,
     onSaveClick: (AiModel) -> Unit
-
 ) {
     val options = listOf(
         AiModel.GIGACHAT to stringResource(R.string.gigachat),
@@ -196,7 +199,7 @@ fun ShowAiModelToChooseAlertDialog(
             TextButton(
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(16.dp))
-                    .background(aboutUserGetColor()),
+                    .background(color = color),
                 onClick = {
                     onSaveClick(selectedModel)
                 }
@@ -214,6 +217,7 @@ fun ShowAiModelToChooseAlertDialog(
 
 @Composable
 fun ShowCountOfAsksAlertDialog(
+    color: Color,
     onLastAsksClicked: () -> Unit,
     selectedOption: Int,
     onOptionSelected: (Int) -> Unit,
@@ -261,7 +265,7 @@ fun ShowCountOfAsksAlertDialog(
             TextButton(
                 modifier = Modifier
                     .clip(shape = RoundedCornerShape(16.dp))
-                    .background(aboutUserGetColor()),
+                    .background(color = color),
                 onClick = {
                     onSaveClick(selectedOption)
                 }

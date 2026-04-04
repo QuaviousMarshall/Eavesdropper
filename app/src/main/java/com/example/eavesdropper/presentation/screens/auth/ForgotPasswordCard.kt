@@ -33,13 +33,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
-import com.example.eavesdropper.presentation.ui.theme.myColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPasswordCard(
     onSendCodeClick: (String) -> Unit,
-    isLoading: Boolean
+    isLoading: Boolean,
+    color: Color
 ) {
     Scaffold(
         modifier = Modifier
@@ -53,7 +53,8 @@ fun ForgotPasswordCard(
             Spacer(Modifier.weight(1f))
             Box(
                 onSendCodeClick = onSendCodeClick,
-                isLoading = isLoading
+                isLoading = isLoading,
+                color = color
             )
             Spacer(Modifier.weight(1f))
             VersionText()
@@ -65,6 +66,7 @@ fun ForgotPasswordCard(
 fun Box(
     onSendCodeClick: (String) -> Unit,
     isLoading: Boolean,
+    color: Color
 ) {
     Box(
         modifier = Modifier
@@ -115,7 +117,7 @@ fun Box(
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            ElevatedButtonSendCode(enabled = !isLoading) {
+            ElevatedButtonSendCode(enabled = !isLoading, color = color) {
                 onSendCodeClick(loginText)
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -148,6 +150,7 @@ fun ForgotPasswordText() {
 @Composable
 fun ElevatedButtonSendCode(
     enabled: Boolean,
+    color: Color,
     onClick: () -> Unit
 ) {
     Row(
@@ -160,7 +163,7 @@ fun ElevatedButtonSendCode(
             enabled = enabled,
             onClick = { onClick() },
             colors = ButtonDefaults.elevatedButtonColors(
-                containerColor = myColor(),
+                containerColor = color,
                 contentColor = Color.Black,
                 disabledContainerColor = Color.Gray,
                 disabledContentColor = Color.Black

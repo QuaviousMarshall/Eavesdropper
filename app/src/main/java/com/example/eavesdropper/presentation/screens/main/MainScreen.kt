@@ -25,7 +25,9 @@ import com.example.eavesdropper.presentation.screens.settings.SettingsCard
 import com.example.eavesdropper.presentation.ui.components.BottomBar
 import com.example.eavesdropper.presentation.ui.components.ListTopBar
 import com.example.eavesdropper.presentation.ui.components.SettingsTopBar
+import com.example.eavesdropper.presentation.ui.theme.myColor
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
+import com.example.eavesdropper.presentation.viewmodels.ListOfAsksViewModel
 import com.example.eavesdropper.presentation.viewmodels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +39,9 @@ fun MainScreen(authViewModel: AuthViewModel) {
     val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     val snackbarHostState = remember { SnackbarHostState() }
-    val viewModel: MainViewModel = hiltViewModel()
+    val mainViewModel: MainViewModel = hiltViewModel()
+    val listViewModel: ListOfAsksViewModel = hiltViewModel()
+    val color = myColor()
 
     Scaffold(
         modifier = Modifier
@@ -83,11 +87,17 @@ fun MainScreen(authViewModel: AuthViewModel) {
             navHostController = navigationState.navHostController,
             mainScreenContent = { MainCard(
                 paddingValues = it,
-                viewModel = viewModel,
+                viewModel = mainViewModel,
+                color = color
             ) },
-            listOfAsksScreenContent = { ListOfAsksCard(it) },
+            listOfAsksScreenContent = { ListOfAsksCard(
+                paddingValues = it,
+                onQueryChange = listViewModel::onSearchQueryChange,
+                viewModel = listViewModel,
+                color = color
+            ) },
             aboutAppScreenContent = {
-                AboutAppCard(it)
+                AboutAppCard(it, color)
             },
             settingsScreenContent = {
                 SettingsCard(
@@ -101,11 +111,12 @@ fun MainScreen(authViewModel: AuthViewModel) {
                     onLogoutClick = {
                         authViewModel.logout()
                     },
-                    viewModel = viewModel
+                    viewModel = mainViewModel,
+                    color = color
                 )
             },
             aboutUserScreenContent = {
-                AboutUserCard(it, authViewModel)
+                AboutUserCard(it, authViewModel, color)
             }
 
         )

@@ -1,17 +1,10 @@
 package com.example.eavesdropper.presentation.screens.settings
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
-import androidx.compose.animation.animateColor
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +30,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,9 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.eavesdropper.R
-import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.Black
-import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 import com.example.eavesdropper.presentation.viewmodels.AuthViewModel
 import com.example.eavesdropper.presentation.viewmodels.ListOfAsksViewModel
 import java.text.SimpleDateFormat
@@ -67,7 +57,8 @@ import java.util.Locale
 @Composable
 fun AboutUserCard(
     paddingValues: PaddingValues,
-    viewModel: AuthViewModel
+    viewModel: AuthViewModel,
+    color: Color
 ) {
     val userInfo by viewModel.userInfo.collectAsState()
 
@@ -103,7 +94,7 @@ fun AboutUserCard(
 
                 text = {
                     OutlinedTextField(
-                        modifier = Modifier.background(aboutUserGetColor()),
+                        modifier = Modifier.background(color),
                         value = nickname,
                         enabled = showNicknameDialog,
                         onValueChange = { nickname = it },
@@ -114,7 +105,7 @@ fun AboutUserCard(
                 confirmButton = {
                     TextButton(
                         modifier = Modifier
-                            .background(aboutUserGetColor())
+                            .background(color)
                             .clip(shape = RoundedCornerShape(16.dp)),
                         onClick = {
                             viewModel.addNickname(nickname)
@@ -159,7 +150,8 @@ fun AboutUserCard(
             modifier = Modifier.clickable(userInfo?.nickname.isNullOrBlank()) {
                 nickname = ""
                 showNicknameDialog = true
-            }
+            },
+            color = color
         ) {
 
             ProfileInfoText(
@@ -178,7 +170,7 @@ fun AboutUserCard(
             )
         }
 
-        ProfileInfoRow {
+        ProfileInfoRow(color = color) {
             ProfileInfoText(R.string.about_user_login, modifier = Modifier.weight(1f))
             Text(
                 text = userInfo?.email ?: "-",
@@ -191,7 +183,7 @@ fun AboutUserCard(
             )
         }
 
-        ProfileInfoRow {
+        ProfileInfoRow(color = color) {
             ProfileInfoText(R.string.count_of_asks, modifier = Modifier.weight(1f))
             Text(
                 text = "${asks.size}",
@@ -204,7 +196,7 @@ fun AboutUserCard(
             )
         }
 
-        ProfileInfoRow {
+        ProfileInfoRow(color = color) {
             ProfileInfoText(R.string.account_creating_date, modifier = Modifier.weight(1f))
             Text(
                 text = userInfo?.createdAt?.let { formatDate(it) } ?: "-",
@@ -228,14 +220,15 @@ fun formatDate(millis: Long): String {
 @Composable
 fun ProfileInfoRow(
     modifier: Modifier = Modifier,
-    content: @Composable RowScope.() -> Unit
+    color: Color,
+    content: @Composable RowScope.() -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(aboutUserGetColor())
+            .background(color)
     ) {
         content()
     }
@@ -254,20 +247,6 @@ fun ProfileInfoText(
         fontWeight = FontWeight.Normal,
         color = Color.Black
     )
-}
-
-@Composable
-fun aboutUserGetColor(): Color {
-    val transition = rememberInfiniteTransition()
-    val color by transition.animateColor(
-        initialValue = Aqua,
-        targetValue = DeepSkyBlue,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-    return color
 }
 
 
