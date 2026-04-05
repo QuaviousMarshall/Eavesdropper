@@ -219,7 +219,7 @@ fun AskRowInList(ask: Ask, color: Color) {
             ) {
                 Text(
                     text = "${ask.question}?",
-                    fontSize = 20.sp,
+                    fontSize = 16.sp,
                     fontFamily = FontFamily.Serif,
                     fontWeight = FontWeight.W500,
                     color = Color.Black,
@@ -244,8 +244,8 @@ fun AskRowInList(ask: Ask, color: Color) {
         AnimatedVisibility(visible = isExpanded) {
             Text(
                 modifier = Modifier.padding(8.dp),
-                text = ": ${ask.answer}",
-                fontSize = 20.sp,
+                text = "Ответ:\n${ask.answer}",
+                fontSize = 16.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.W500,
                 color = Color.Black

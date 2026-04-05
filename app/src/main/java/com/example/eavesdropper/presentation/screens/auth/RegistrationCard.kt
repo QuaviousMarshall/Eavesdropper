@@ -13,11 +13,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +45,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
+import com.example.eavesdropper.presentation.ui.theme.Black
 import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -112,21 +118,53 @@ fun NickLoginPasswordBox(
             Spacer(modifier = Modifier.height(12.dp))
 
             var loginText by rememberSaveable { mutableStateOf("") }
-            ProfileTextField(
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp)
+                    .fillMaxWidth(),
                 value = loginText,
                 onValueChange = { loginText = it },
-                labelRes = R.string.login_types,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                enabled = !isLoading,
+                leadingIcon = { Icon(imageVector = Icons.Default.Email,contentDescription = "", tint = Black)},
+                label = {
+                    Text(
+                        text = stringResource(
+                            R.string.login_types
+                        ),
+                        fontSize = 10.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Black, unfocusedTextColor = Black),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
             var passwordText by rememberSaveable { mutableStateOf("") }
-            ProfileTextField(
+            OutlinedTextField(
+                modifier = Modifier
+                    .padding(start = 16.dp, end = 16.dp)
+                    .fillMaxWidth(),
                 value = passwordText,
-                onValueChange = { passwordText = it },
-                labelRes = R.string.password,
+                enabled = !isLoading,
+                leadingIcon = { Icon(imageVector = Icons.Default.Lock,contentDescription = "", tint = Black) },
                 visualTransformation = PasswordVisualTransformation(),
+                onValueChange = { passwordText = it },
+                label = {
+                    Text(
+                        text = stringResource(
+                            R.string.password
+                        ),
+                        fontSize = 10.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.Medium,
+                        color = Color.Black
+                    )
+                },
+                colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Black, unfocusedTextColor = Black),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
 
@@ -215,6 +253,7 @@ fun ElevatedButtonRegin(
         horizontalArrangement = Arrangement.Absolute.Center,
     ) {
         ElevatedButton(
+            modifier = Modifier.fillMaxWidth(),
             onClick = { onClick() },
             enabled = enabled,
             colors = ButtonDefaults.elevatedButtonColors(

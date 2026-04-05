@@ -28,8 +28,6 @@ class MainViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
-    val userId = sessionManager.currentUserId
-
     val n: StateFlow<Int> =
         sessionManager.currentUserId
             .filterNotNull()

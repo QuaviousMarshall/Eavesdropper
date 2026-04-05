@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -127,7 +128,7 @@ fun LoginPasswordBox(
                 label = {
                     Text(
                         text = stringResource(
-                            R.string.login
+                            R.string.login_types
                         ),
                         fontSize = 10.sp,
                         fontFamily = FontFamily.Serif,
@@ -135,7 +136,7 @@ fun LoginPasswordBox(
                         color = Color.Black
                     )
                 },
-                colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Black),
+                colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Black, unfocusedTextColor = Black),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
 
@@ -161,7 +162,7 @@ fun LoginPasswordBox(
                         color = Color.Black
                     )
                 },
-                colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Black),
+                colors = OutlinedTextFieldDefaults.colors(focusedTextColor = Black, unfocusedTextColor = Black),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -260,6 +261,8 @@ fun ElevatedButtonLogin(
         horizontalArrangement = Arrangement.Absolute.Center,
     ) {
         ElevatedButton(
+            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             onClick = { onClick() },
             colors = ButtonDefaults.elevatedButtonColors(

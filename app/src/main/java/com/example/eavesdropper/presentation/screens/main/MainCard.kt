@@ -15,6 +15,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,10 +26,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,6 +61,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import androidx.core.content.ContextCompat
 import com.example.eavesdropper.R
 import com.example.eavesdropper.domain.entity.Ask
@@ -62,6 +70,7 @@ import com.example.eavesdropper.presentation.ui.theme.DeepSkyBlue
 import com.example.eavesdropper.presentation.ui.theme.Turquoise
 import com.example.eavesdropper.presentation.viewmodels.MainViewModel
 import com.example.eavesdropper.service.VoiceRecognitionService
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,6 +82,7 @@ fun MainCard(
     val n by viewModel.n.collectAsState()
     val lastAsks by viewModel.lastAsks.collectAsState()
     val isTronEnabled by viewModel.isTronEnabled.collectAsState()
+    val pagerState = rememberPagerState(pageCount = { 4 })
 
     Column(
         modifier = Modifier
@@ -92,7 +102,9 @@ fun MainCard(
 
         LastAsksList(lastAsks, n, color)
 
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(16.dp))
+
+        VersionChangesCard(pagerState)
 
     }
 }
@@ -124,7 +136,7 @@ fun LastAsksList(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = String.format(stringResource(R.string.last_3_asks), n),
-                fontSize = 22.sp,
+                fontSize = 18.sp,
                 fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
@@ -154,7 +166,7 @@ fun AskMainIcon(isActive: Boolean, color: Color) {
         label = "scale"
     )
 
-    val tint = if (isActive) color else DeepSkyBlue
+    val tint = if (isActive) color else Turquoise
 
     Box(
         modifier = Modifier.graphicsLayer(
@@ -238,9 +250,75 @@ fun TronToggleButton(
             ),
             modifier = Modifier.fillMaxSize(),
             thumbContent = {
-                Icon( imageVector = Icons.Default.Mic, contentDescription = null )
+                Icon(imageVector = Icons.Default.Mic, contentDescription = null)
             }
         )
+    }
+}
+
+@Composable
+fun VersionChangesCard(
+    pagerState: PagerState
+) {
+
+    val items = listOf(
+        "1.0.1" to stringResource(R.string.version_text101),
+        "2.0.0" to stringResource(R.string.version_text200),
+        "2.1.0" to stringResource(R.string.version_text210),
+        "2.2.0" to stringResource(R.string.version_text220)
+    )
+
+    HorizontalPager(
+        state = pagerState,
+        pageSpacing = 8.dp,
+        contentPadding = PaddingValues(horizontal = 16.dp)
+    ) { page ->
+
+        val item = items[page]
+
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(300.dp)
+                .graphicsLayer {
+                    val pageOffset = (
+                            (pagerState.currentPage - page) + pagerState
+                                .currentPageOffsetFraction
+                            ).absoluteValue
+
+                    alpha = lerp(
+                        start = 0.5f,
+                        stop = 1f,
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                    )
+                },
+            colors = CardDefaults.cardColors(
+                containerColor = Turquoise
+            )
+        ) {
+            LazyColumn(
+                modifier = Modifier.padding(16.dp),
+            ) {
+                item {
+                    Text(
+                        text = "Версия ${item.first}",
+                        fontSize = 16.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.W600,
+                        textAlign = TextAlign.Center,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = item.second,
+                        fontSize = 14.sp,
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.W400,
+                        color = Color.Black
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -255,8 +333,6 @@ private fun hasAudioPermission(context: Context): Boolean {
 @Composable
 fun AskRow(ask: Ask, color: Color) {
 
-    var isExpanded by remember { mutableStateOf(false) }
-
     ElevatedCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -269,22 +345,11 @@ fun AskRow(ask: Ask, color: Color) {
         Text(
             modifier = Modifier.padding(8.dp),
             text = "${ask.question}?",
-            fontSize = 20.sp,
+            fontSize = 16.sp,
             fontFamily = FontFamily.Serif,
             fontWeight = FontWeight.W500,
             color = Color.Black
         )
-
-        AnimatedVisibility(visible = isExpanded) {
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = "Ответ:\n${ask.answer}",
-                fontSize = 18.sp,
-                fontFamily = FontFamily.Serif,
-                fontWeight = FontWeight.W300,
-                color = Color.Black
-            )
-        }
     }
 }
 

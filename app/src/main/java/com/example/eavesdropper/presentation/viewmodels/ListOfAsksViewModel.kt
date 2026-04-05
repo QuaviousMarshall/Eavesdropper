@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -37,12 +39,17 @@ class ListOfAsksViewModel @Inject constructor(
     }
 
     private val loadingMap = mutableSetOf<Int>()
+
     val asks: StateFlow<List<Ask>> =
-        useCases.getAsksUseCase(sessionManager.currentUserId.value!!)
+        sessionManager.currentUserId
+            .filterNotNull()
+            .flatMapLatest {userId ->
+                useCases.getAsksUseCase(userId)
+            }
             .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = emptyList()
+                viewModelScope,
+                SharingStarted.WhileSubscribed(5000),
+                emptyList()
             )
 
     val filteredAsks: StateFlow<List<Ask>> =

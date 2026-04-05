@@ -300,7 +300,7 @@ fun ProfileActionButton(
         Text(
             text = stringResource(textRes),
             fontFamily = FontFamily.Serif,
-            fontSize = 20.sp,
+            fontSize = 16.sp,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium
         )
