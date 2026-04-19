@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation.di
+package com.example.eavesdropper.data.di
 
 import com.example.eavesdropper.data.repository.TronRepositoryImpl
 import com.example.eavesdropper.domain.repository.TronRepository

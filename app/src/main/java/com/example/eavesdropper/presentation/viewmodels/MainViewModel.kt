@@ -7,7 +7,10 @@ import com.example.eavesdropper.data.local.preferences.PreferencesRepository
 import com.example.eavesdropper.data.remote.model.AiModel
 import com.example.eavesdropper.domain.entity.Ask
 import com.example.eavesdropper.domain.usecases.TronUseCases
-import com.example.eavesdropper.presentation.di.SessionManager
+import com.example.eavesdropper.data.di.SessionManager
+import com.example.eavesdropper.domain.entity.Note
+import com.example.eavesdropper.domain.repository.AuthRepository
+import com.example.eavesdropper.domain.repository.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,6 +27,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val sessionManager: SessionManager,
     private val tronUseCases: TronUseCases,
+    private val repository: NoteRepository,
+    private val authRepository: AuthRepository,
     private val speechController: SpeechRecognizerController,
     private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
@@ -44,6 +49,22 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val userId = sessionManager.currentUserId.value ?: return@launch
             preferencesRepository.saveLastAsksCount(userId, digit)
+        }
+    }
+
+    fun sendOfferToUpdates(offer: String) {
+        viewModelScope.launch {
+            val userId = sessionManager.currentUserId.value ?: return@launch
+            val note = Note(
+                userId = userId,
+                userLogin = authRepository.getUserInfo()?.email ?: "",
+                offer = offer,
+                createdAt = System.currentTimeMillis()
+            )
+            repository.addUpdatesOffer(
+                note = note,
+                userId = userId
+            )
         }
     }
 

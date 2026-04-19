@@ -1,9 +1,10 @@
-package com.example.eavesdropper.presentation.di
+package com.example.eavesdropper.data.di
 
 import android.content.Context
 import androidx.room.Room
 import com.example.eavesdropper.data.local.db.AppDatabase
 import com.example.eavesdropper.data.local.db.AskDao
+import com.example.eavesdropper.data.local.db.NoteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,4 +32,8 @@ object DatabaseModule {
     @Provides
     fun provideAskDao(db: AppDatabase): AskDao =
         db.askInfoDao()
+
+    @Provides
+    fun provideNoteDao(db: AppDatabase): NoteDao =
+        db.noteInfoDao()
 }

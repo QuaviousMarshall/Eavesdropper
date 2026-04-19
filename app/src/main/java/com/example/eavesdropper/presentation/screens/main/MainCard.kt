@@ -128,7 +128,7 @@ fun LastAsksList(
             containerColor = Turquoise
         ),
         modifier = Modifier
-            .padding(8.dp),
+            .padding(16.dp),
     ) {
         Column {
             Spacer(Modifier.height(8.dp))

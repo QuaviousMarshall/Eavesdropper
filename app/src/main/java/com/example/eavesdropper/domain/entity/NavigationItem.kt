@@ -1,13 +1,11 @@
 package com.example.eavesdropper.domain.entity
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.material.icons.twotone.Home
-import androidx.compose.material.icons.twotone.List
 import androidx.compose.material.icons.twotone.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.eavesdropper.R
-import com.example.eavesdropper.presentation.navigation.Screen
+import com.example.eavesdropper.data.navigation.Screen
 
 sealed class NavigationItem(
     val screen: Screen,

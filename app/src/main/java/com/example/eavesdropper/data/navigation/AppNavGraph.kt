@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation.navigation
+package com.example.eavesdropper.data.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

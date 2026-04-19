@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation.di
+package com.example.eavesdropper.data.di
 
 import android.content.Context
 import com.example.eavesdropper.data.local.preferences.PreferencesRepository

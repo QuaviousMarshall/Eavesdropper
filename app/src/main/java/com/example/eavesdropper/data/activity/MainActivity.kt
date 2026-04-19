@@ -1,10 +1,10 @@
-package com.example.eavesdropper.presentation.activity
+package com.example.eavesdropper.data.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.eavesdropper.presentation.app.AppRoot
+import com.example.eavesdropper.data.app.AppRoot
 import com.example.eavesdropper.presentation.ui.theme.EavesdropperTheme
 import dagger.hilt.android.AndroidEntryPoint
 

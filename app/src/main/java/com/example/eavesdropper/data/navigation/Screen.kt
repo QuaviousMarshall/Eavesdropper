@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation.navigation
+package com.example.eavesdropper.data.navigation
 
 sealed class Screen(
     val route: String

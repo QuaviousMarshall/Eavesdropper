@@ -5,7 +5,7 @@ import com.example.eavesdropper.data.remote.model.AiModel
 import com.example.eavesdropper.data.repository.GigaChatRepository
 import com.example.eavesdropper.data.repository.OpenAiRepository
 import com.example.eavesdropper.domain.repository.AiRepository
-import com.example.eavesdropper.presentation.di.SessionManager
+import com.example.eavesdropper.data.di.SessionManager
 import javax.inject.Inject
 
 class AiRepositoryFactory @Inject constructor(

@@ -1,7 +1,6 @@
 package com.example.eavesdropper.presentation.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -10,12 +9,10 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.example.eavesdropper.domain.entity.NavigationItem
-import com.example.eavesdropper.presentation.navigation.NavigationState
+import com.example.eavesdropper.data.navigation.NavigationState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

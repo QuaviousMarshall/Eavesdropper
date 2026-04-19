@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.eavesdropper.presentation.navigation.AppNavGraph
-import com.example.eavesdropper.presentation.navigation.Screen
-import com.example.eavesdropper.presentation.navigation.rememberNavigationState
+import com.example.eavesdropper.data.navigation.AppNavGraph
+import com.example.eavesdropper.data.navigation.Screen
+import com.example.eavesdropper.data.navigation.rememberNavigationState
 import com.example.eavesdropper.presentation.screens.list.ListOfAsksCard
 import com.example.eavesdropper.presentation.screens.settings.AboutAppCard
 import com.example.eavesdropper.presentation.screens.settings.AboutUserCard

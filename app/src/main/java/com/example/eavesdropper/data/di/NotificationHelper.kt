@@ -1,4 +1,4 @@
-package com.example.eavesdropper.presentation.di
+package com.example.eavesdropper.data.di
 
 import android.Manifest
 import android.app.NotificationChannel

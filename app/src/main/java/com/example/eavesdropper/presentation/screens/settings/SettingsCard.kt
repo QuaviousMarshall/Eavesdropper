@@ -1,5 +1,6 @@
 package com.example.eavesdropper.presentation.screens.settings
 
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.RepeatMode
@@ -26,6 +27,8 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -37,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
@@ -46,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.eavesdropper.R
 import com.example.eavesdropper.data.remote.model.AiModel
+import com.example.eavesdropper.presentation.auth.AuthState
 import com.example.eavesdropper.presentation.screens.auth.VersionText
 import com.example.eavesdropper.presentation.ui.theme.Aqua
 import com.example.eavesdropper.presentation.ui.theme.Black
@@ -64,13 +69,31 @@ fun SettingsCard(
     onLogoutClick: () -> Unit
 ) {
     var onLastAsksClicked by remember { mutableStateOf(false) }
+    var onOfferUpdatesClicked by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     var selectedOptionForAsks by remember { mutableIntStateOf(viewModel.n.value) }
 
     val currentModel by viewModel.aiModel.collectAsState()
 
     var selectedModel by remember(currentModel) {
         mutableStateOf(currentModel)
+    }
+
+    if (onOfferUpdatesClicked) {
+        ShowOfferUpdatesAlertDialog(
+            color = color,
+            onDismissClick = { onOfferUpdatesClicked = false },
+            onConfirm = {
+                viewModel.sendOfferToUpdates(it)
+                onOfferUpdatesClicked = false
+                Toast.makeText(
+                    context,
+                    "Ваше предложение успешно отправлено!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        )
     }
 
     if (showDialog) {
@@ -130,6 +153,14 @@ fun SettingsCard(
         }
         ProfileRow {
             ProfileActionButton(
+                R.string.offer_updates,
+                onProfileButtonClick = {
+                    onOfferUpdatesClicked = true
+                }
+            )
+        }
+        ProfileRow {
+            ProfileActionButton(
                 R.string.about_app,
                 onAppInfoButtonClick
             )
@@ -144,6 +175,48 @@ fun SettingsCard(
         Spacer(Modifier.weight(1f))
         VersionText()
     }
+}
+
+@Composable
+fun ShowOfferUpdatesAlertDialog(
+    color: Color,
+    onDismissClick: () -> Unit,
+    onConfirm: (String) -> Unit
+) {
+
+    var text by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismissClick,
+        title = {
+            Text(stringResource(R.string.offer_updates))
+        },
+        text = {
+            TextField(
+                value = text,
+                onValueChange = { text = it },
+                singleLine = false,
+                placeholder = { Text(stringResource(R.string.updates_placeholder)) }
+            )
+        },
+        confirmButton = {
+            TextButton(modifier = Modifier
+                .clip(shape = RoundedCornerShape(16.dp))
+                .background(color = color),
+                onClick = { onConfirm(text) }) {
+                Text(stringResource(R.string.ok))
+            }
+        },
+
+        dismissButton = {
+            TextButton(modifier = Modifier
+                .clip(shape = RoundedCornerShape(16.dp))
+                .background(color = Color.Red),
+                onClick = onDismissClick) {
+                Text(stringResource(R.string.cancel), color = Color.White)
+            }
+        }
+    )
 }
 
 @Composable
