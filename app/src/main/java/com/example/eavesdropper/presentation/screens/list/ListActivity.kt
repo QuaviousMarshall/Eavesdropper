@@ -210,7 +210,6 @@ fun AskRowInList(ask: Ask, color: Color) {
             .padding(horizontal = 8.dp)
             .fillMaxWidth()
             .defaultMinSize(minHeight = 86.dp)
-            .clickable { isExpanded = !isExpanded }
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Row(
